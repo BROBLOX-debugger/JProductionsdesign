@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPRODUCTIONS — Justin Miranda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<!-- Auth guard -->
+<script>
+    if (!sessionStorage.getItem("loggedIn")) {
+        window.location.href = "Login.html";
+    }
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = "Login.html";
+    }
+</script>
+
+<!-- ===================== NAV ===================== -->
+<nav class="navbar">
+    <div class="nav-inner">
+        <a href="HTML.html" class="nav-brand">JPRODUCTIONS</a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#achievements">Achievements</a></li>
+            <li><a href="#booking">Book Me</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="https://www.instagram.com/jstn_creep/" target="_blank">Instagram</a></li>
+            <li class="nav-user" id="user-greeting"></li>
+            <li>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+            </li>
+            <li><a href="#" class="nav-logout" onclick="logout()">Logout</a></li>
+        </ul>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero panel">
+    <div class="hero-grid">
+        <div class="hero-image-wrap">
+            <div class="hero-image-glow"></div>
+            <img src="images/Justinsssss.jpg" alt="Justin Miranda" class="hero-image">
+            <div class="hero-badge">Champion Vocalist</div>
+        </div>
+
+        <div class="hero-content">
+            <p class="eyebrow">Live Performer • BSCS Student</p>
+            <h1 class="hero-title">Justin Phey Miranda</h1>
+            <p class="hero-lead">
+                Champion vocalist delivering unforgettable live performances for weddings, 
+                birthdays, corporate events, and private celebrations. Balancing academic 
+                excellence in Computer Science with a deep passion for music.
+            </p>
+            <div class="hero-actions">
+                <a href="#booking" class="btn btn-primary">Book a Performance</a>
+                <a href="#achievements" class="btn btn-ghost">View Achievements</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-num">Champion</span>
+                    <span class="stat-label">Vocalist</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num">Live</span>
+                    <span class="stat-label">Performer</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num">BSCS</span>
+                    <span class="stat-label">Student</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" class="panel about-panel">
+    <div class="section-header">
+        <p class="eyebrow">Who I Am</p>
+        <h2>About Me</h2>
+    </div>
+    <div class="about-grid">
+        <div class="about-text">
+            <p>
+                My name is <strong>Justin Phey Miranda</strong>. I’m currently pursuing a 
+                <strong>Bachelor of Science in Computer Science</strong> while building a 
+                career as a professional vocalist and live performer.
+            </p>
+            <p>
+                As a <strong>Champion Vocalist</strong>, I’ve competed in and won multiple 
+                singing competitions — proving dedication, stage presence, and vocal excellence. 
+                Beyond the competitions, I regularly perform at live events, private functions, 
+                and special occasions, creating memorable experiences for every audience.
+            </p>
+            <p>
+                I believe in balancing academic growth with artistic passion. Whether on stage 
+                or in the classroom, I strive for excellence and continuous improvement.
+            </p>
+            <div class="about-tags">
+                <span class="tag">Champion Vocalist</span>
+                <span class="tag">Grand Champion</span>
+                <span class="tag">Live Performer</span>
+                <span class="tag">BSCS Student</span>
+            </div>
+        </div>
+        <div class="about-side">
+            <div class="info-card">
+                <h3>Contact</h3>
+                <a href="mailto:justinpheymiranda@gmail.com">justinpheymiranda@gmail.com</a>
+                <a href="tel:+639943624749">+63 994 362 4749</a>
+                <a href="https://www.instagram.com/jstn_creep/" target="_blank">@jstn_creep</a>
+            </div>
+            <div class="info-card">
+                <h3>Available For</h3>
+                <ul>
+                    <li>Weddings</li>
+                    <li>Birthdays</li>
+                    <li>Corporate Events</li>
+                    <li>Private Parties</li>
+                    <li>Community Programs</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== SERVICES ===================== -->
+<section id="services" class="panel services-panel">
+    <div class="section-header">
+        <p class="eyebrow">What I Offer</p>
+        <h2>How Can I Help You?</h2>
+    </div>
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-icon">🎤</div>
+            <h3>Live Vocal Performance</h3>
+            <p>Professional live singing for weddings, birthdays, corporate gatherings, and private celebrations. High energy, stage presence, and audience engagement.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon">🏆</div>
+            <h3>Featured Vocalist</h3>
+            <p>Standout performances tailored to your event. From intimate acoustic sets to full high-energy shows — I deliver memorable moments.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon">🎧</div>
+            <h3>Recording Services</h3>
+            <p>Professional recording for live performances and studio sessions. Clean, polished tracks for your special projects.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon">🌍</div>
+            <h3>Multi-Language Songs</h3>
+            <p>I can perform songs in various languages. Just let me know your preferences when you book.</p>
+        </div>
+    </div>
+    <div class="services-note">
+        <p>I provide my own sound equipment for all performances.</p>
+    </div>
+</section>
+
+<!-- ===================== ACHIEVEMENTS ===================== -->
+<section id="achievements" class="panel achievements-panel">
+    <div class="section-header">
+        <p class="eyebrow">Competition Wins</p>
+        <h2>Achievements in Singing</h2>
+    </div>
+    <div class="achievements-grid">
+        <div class="ach-item large">
+            <img src="images/RAPSA.jpg" alt="Achievement">
+        </div>
+        <div class="ach-item">
+            <img src="images/Justinrap.jpg" alt="Achievement">
+        </div>
+        <div class="ach-item">
+            <img src="images/Justin.jpg" alt="Achievement">
+        </div>
+        <div class="ach-item">
+            <img src="images/CHAMPION.jpg" alt="Achievement">
+        </div>
+        <div class="ach-item">
+            <img src="images/champa.jpg" alt="Achievement">
+        </div>
+    </div>
+    <div class="achievements-cta">
+        <a href="https://www.instagram.com/jstn_creep/" target="_blank" class="btn btn-primary">More on Instagram</a>
+    </div>
+</section>
+
+<!-- ===================== BOOKING ===================== -->
+<section id="booking" class="panel booking-panel">
+    <div class="section-header">
+        <p class="eyebrow">Get in Touch</p>
+        <h2>Book Me for Your Event</h2>
+        <p class="section-desc">Fill out the form below. Your booking goes directly into my database and I’ll get back to you as soon as possible.</p>
+    </div>
+
+    <form id="booking-form" class="booking-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="booking-name">Full Name</label>
+                <input type="text" id="booking-name" name="name" placeholder="Juan Dela Cruz" required>
+            </div>
+            <div class="form-group">
+                <label for="booking-date">Date of Event</label>
+                <input type="date" id="booking-date" name="date" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="booking-song">Song list you want to hear</label>
+            <input type="text" id="booking-song" name="song" placeholder="Ex. Perfect - Ed Sheeran, All of Me - John Legend" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Send Booking Request</button>
+        <p id="booking-status"></p>
+    </form>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="panel faq-panel">
+    <div class="section-header">
+        <p class="eyebrow">Common Questions</p>
+        <h2>Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-list">
+        <details>
+            <summary>What types of events do you perform at?</summary>
+            <p>I perform at weddings, birthdays, corporate gatherings, private celebrations, and community programs.</p>
+        </details>
+        <details>
+            <summary>How far in advance should I book?</summary>
+            <p>It’s best to book as early as possible, especially during peak seasons. I recommend booking at least a few weeks in advance.</p>
+        </details>
+        <details>
+            <summary>Do you offer recording services?</summary>
+            <p>Yes. I offer professional recording services for both live performances and studio sessions.</p>
+        </details>
+        <details>
+            <summary>Can you sing in different languages?</summary>
+            <p>Yes. I can perform songs in various languages. Please let me know your preferences when booking.</p>
+        </details>
+        <details>
+            <summary>Do you provide your own sound system?</summary>
+            <p>Yes. I provide my own sound equipment for all performances.</p>
+        </details>
+    </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer panel">
+    <div class="footer-inner">
+        <div class="footer-brand">JPRODUCTIONS</div>
+        <div class="footer-links">
+            <a href="mailto:justinpheymiranda@gmail.com">Gmail</a>
+            <a href="https://www.facebook.com/uwuwuwuuwuwuwwuuw" target="_blank">Facebook</a>
+            <a href="https://www.instagram.com/jstn_creep/" target="_blank">Instagram</a>
+            <a href="tel:+639943624749">+63 994 362 4749</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 Justin Miranda. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Username + Theme + Mobile nav -->
+<script>
+    // Username
+    const userName = sessionStorage.getItem("userName");
+    if (userName) {
+        document.getElementById("user-greeting").textContent = "Hi, " + userName + "!";
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById("theme-toggle");
+    const root = document.documentElement;
+
+    // Load saved theme (default: dark)
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    root.setAttribute("data-theme", savedTheme);
+
+    themeToggle.addEventListener("click", () => {
+        const current = root.getAttribute("data-theme");
+        const next = current === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+    });
+
+    // Mobile nav toggle
+    const toggle = document.getElementById("nav-toggle");
+    const links = document.querySelector(".nav-links");
+    if (toggle) {
+        toggle.addEventListener("click", () => {
+            links.classList.toggle("open");
+            toggle.classList.toggle("active");
+        });
+    }
+</script>
+
+<!-- Firebase + booking logic -->
+<script src="firebase-config.js"></script>
+
+</body>
+</html>

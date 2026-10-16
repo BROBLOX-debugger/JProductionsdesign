@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — JPRODUCTIONS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --deep:    #03030c;
+            --c1:      #00f5ff;
+            --c2:      #c77dff;
+            --c3:      #ff6b9d;
+            --c4:      #ffd97d;
+            --surface: rgba(255,255,255,0.035);
+            --border:  rgba(255,255,255,0.08);
+            --text:    #e8e4f0;
+            --muted:   #6b6580;
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html, body { height:100%; font-family:'Inter',sans-serif; background:var(--deep); color:var(--text); }
+
+        .split { display:flex; min-height:100vh; width:100vw; }
+
+        /* ===================== LEFT PANEL ===================== */
+        .left {
+            flex:0 0 42%;
+            position:sticky;
+            top:0;
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            padding:3.5rem 3.2rem;
+            overflow:hidden;
+        }
+
+        .left::before {
+            content:'';
+            position:absolute; inset:0;
+            background:
+                radial-gradient(ellipse 65% 55% at 25% 35%, rgba(255,107,157,0.16) 0%, transparent 55%),
+                radial-gradient(ellipse 55% 65% at 75% 65%, rgba(199,125,255,0.18) 0%, transparent 55%),
+                radial-gradient(ellipse 45% 45% at 50% 15%, rgba(0,245,255,0.07) 0%, transparent 55%);
+            animation:crystalShift 11s ease-in-out infinite alternate;
+            z-index:0;
+        }
+        .left::after {
+            content:'';
+            position:absolute; inset:0;
+            background:
+                radial-gradient(ellipse 38% 38% at 80% 80%, rgba(255,217,125,0.10) 0%, transparent 55%),
+                radial-gradient(ellipse 32% 42% at 18% 72%, rgba(255,107,157,0.08) 0%, transparent 55%);
+            animation:crystalShift 11s ease-in-out infinite alternate-reverse;
+            z-index:0;
+        }
+        @keyframes crystalShift {
+            0%   { filter:blur(42px) hue-rotate(0deg);   opacity:1; }
+            50%  { filter:blur(58px) hue-rotate(22deg);  opacity:.88; }
+            100% { filter:blur(48px) hue-rotate(-10deg); opacity:1; }
+        }
+
+        .left-grid {
+            position:absolute; inset:0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+            background-size:52px 52px;
+            z-index:1;
+            mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 75%);
+        }
+
+        .left-content { position:relative; z-index:2; }
+
+        .brand-label {
+            font-size:.68rem;
+            letter-spacing:.28em;
+            color:var(--c3);
+            margin-bottom:1.25rem;
+            font-weight:500;
+            opacity:.75;
+            text-transform:uppercase;
+        }
+
+        /* ===== ANIMATED JPRODUCTIONS ===== */
+        .brand-name {
+            font-family:'Cinzel',serif;
+            font-size:clamp(2.3rem, 4.2vw, 3.6rem);
+            font-weight:900;
+            line-height:1.02;
+            margin-bottom:1.4rem;
+            background:linear-gradient(125deg, #fff 0%, var(--c3) 28%, var(--c2) 55%, var(--c1) 78%, var(--c4) 100%);
+            background-size:280% 280%;
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+            animation:brandShimmer 6s ease-in-out infinite alternate,
+                      brandFloat 5.5s ease-in-out infinite;
+            position:relative;
+            display:inline-block;
+            filter:drop-shadow(0 0 16px rgba(255,107,157,0.28));
+        }
+        @keyframes brandShimmer {
+            0%   { background-position:0% 50%; }
+            100% { background-position:100% 50%; }
+        }
+        @keyframes brandFloat {
+            0%, 100% { transform:translateY(0); }
+            50%      { transform:translateY(-7px); }
+        }
+
+        .left-desc {
+            font-size:.88rem;
+            color:rgba(232,228,240,0.52);
+            line-height:1.7;
+            margin-bottom:2.1rem;
+            max-width:30ch;
+        }
+
+        .steps { display:flex; flex-direction:column; gap:.85rem; }
+        .step { display:flex; align-items:center; gap:.75rem; }
+        .step-num {
+            width:28px; height:28px;
+            border-radius:50%;
+            border:1px solid;
+            display:flex; align-items:center; justify-content:center;
+            font-size:.72rem;
+            font-weight:700;
+            flex-shrink:0;
+        }
+        .step:nth-child(1) .step-num { color:var(--c1); border-color:rgba(0,245,255,0.38); background:rgba(0,245,255,0.07); }
+        .step:nth-child(2) .step-num { color:var(--c2); border-color:rgba(199,125,255,0.38); background:rgba(199,125,255,0.07); }
+        .step:nth-child(3) .step-num { color:var(--c3); border-color:rgba(255,107,157,0.38); background:rgba(255,107,157,0.07); }
+        .step-text { font-size:.82rem; color:rgba(232,228,240,0.55); }
+
+        /* ===================== MOVING MIC ===================== */
+        .mic-container {
+            position:absolute;
+            bottom:7%;
+            left:50%;
+            transform:translateX(-50%);
+            z-index:3;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            animation:micFloat 4.8s ease-in-out infinite;
+        }
+        @keyframes micFloat {
+            0%, 100% { transform:translateX(-50%) translateY(0); }
+            50%      { transform:translateX(-50%) translateY(-12px); }
+        }
+
+        .mic-svg {
+            width:48px;
+            height:48px;
+            filter:drop-shadow(0 0 12px rgba(255,107,157,0.5));
+        }
+        .mic-body { fill:url(#micGrad); }
+        .mic-stand { stroke:rgba(255,255,255,0.35); stroke-width:2.5; fill:none; }
+
+        .wave {
+            position:absolute;
+            border:1.5px solid;
+            border-radius:50%;
+            opacity:0;
+            animation:waveExpand 2.8s ease-out infinite;
+        }
+        .wave-1 { width:66px; height:66px; border-color:rgba(255,107,157,0.5); animation-delay:0s; }
+        .wave-2 { width:66px; height:66px; border-color:rgba(199,125,255,0.45); animation-delay:0.7s; }
+        .wave-3 { width:66px; height:66px; border-color:rgba(0,245,255,0.4); animation-delay:1.4s; }
+
+        @keyframes waveExpand {
+            0%   { transform:scale(0.6); opacity:0.7; }
+            100% { transform:scale(2.1); opacity:0; }
+        }
+
+        /* ===================== DIVIDER ===================== */
+        .divider-v {
+            flex:0 0 1px;
+            background:linear-gradient(180deg, transparent, rgba(255,255,255,0.07) 20%, rgba(255,255,255,0.07) 80%, transparent);
+        }
+
+        /* ===================== RIGHT PANEL ===================== */
+        .right {
+            flex:1;
+            display:flex;
+            align-items:flex-start;
+            justify-content:center;
+            padding:3rem 2.5rem;
+            overflow-y:auto;
+            position:relative;
+        }
+        .right::before {
+            content:'';
+            position:fixed; inset:0;
+            background:radial-gradient(ellipse 80% 80% at 70% 50%, rgba(255,107,157,0.045) 0%, transparent 70%);
+            pointer-events:none;
+            z-index:0;
+        }
+
+        .card-wrap {
+            position:relative;
+            width:100%;
+            max-width:420px;
+            z-index:1;
+        }
+        .card-wrap::before {
+            content:'';
+            position:absolute;
+            inset:-1.8px;
+            border-radius:1.5rem;
+            background:linear-gradient(135deg, var(--c3), var(--c2), var(--c1), var(--c4), var(--c3));
+            background-size:320% 320%;
+            animation:borderShift 6s linear infinite;
+            z-index:0;
+            opacity:.52;
+        }
+        @keyframes borderShift {
+            0%   { background-position:0% 50%; }
+            50%  { background-position:100% 50%; }
+            100% { background-position:0% 50%; }
+        }
+
+        .card {
+            position:relative;
+            z-index:1;
+            background:rgba(4,4,16,0.90);
+            backdrop-filter:blur(28px);
+            -webkit-backdrop-filter:blur(28px);
+            border-radius:1.4rem;
+            padding:2.4rem 2.15rem;
+            border:1px solid rgba(255,255,255,0.05);
+        }
+
+        .card-eyebrow {
+            font-size:.63rem;
+            letter-spacing:.2em;
+            color:var(--c3);
+            margin-bottom:.45rem;
+            font-weight:500;
+        }
+        .card-title {
+            font-family:'Cinzel',serif;
+            font-size:1.45rem;
+            font-weight:600;
+            color:#fff;
+            margin-bottom:.25rem;
+        }
+        .card-sub {
+            font-size:.82rem;
+            color:var(--muted);
+            margin-bottom:1.85rem;
+        }
+
+        .form-row {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:1rem;
+        }
+
+        .field {
+            display:flex;
+            flex-direction:column;
+            gap:.38rem;
+            margin-bottom:1rem;
+        }
+        .field label {
+            font-size:.68rem;
+            letter-spacing:.12em;
+            color:rgba(255,255,255,0.38);
+            font-weight:500;
+        }
+        .field input,
+        .field select {
+            background:rgba(255,255,255,0.035);
+            border:1px solid var(--border);
+            border-radius:.65rem;
+            color:var(--text);
+            font-family:'Inter',sans-serif;
+            font-size:.93rem;
+            padding:.78rem 1rem;
+            transition:border-color .22s, box-shadow .22s, background .22s;
+            width:100%;
+        }
+        .field input::placeholder { color:rgba(255,255,255,0.14); }
+        .field select option { background:#0a0a1a; }
+        .field input:focus,
+        .field select:focus {
+            outline:none;
+            border-color:rgba(255,107,157,0.45);
+            background:rgba(255,107,157,0.03);
+            box-shadow:0 0 0 3px rgba(255,107,157,0.06), 0 0 22px rgba(255,107,157,0.08);
+        }
+
+        .btn-register {
+            width:100%;
+            padding:.88rem;
+            border:none;
+            border-radius:.7rem;
+            font-family:'Inter',sans-serif;
+            font-size:.93rem;
+            font-weight:600;
+            cursor:pointer;
+            letter-spacing:.04em;
+            margin-top:.3rem;
+            background:linear-gradient(135deg, var(--c3), var(--c2));
+            background-size:200% 200%;
+            color:#03030c;
+            transition:box-shadow .25s, transform .15s;
+            animation:btnShimmer 4.5s ease infinite;
+        }
+        @keyframes btnShimmer {
+            0%   { background-position:0% 50%; }
+            50%  { background-position:100% 50%; }
+            100% { background-position:0% 50%; }
+        }
+        .btn-register:hover {
+            box-shadow:0 0 30px rgba(255,107,157,0.38), 0 0 60px rgba(199,125,255,0.22);
+            transform:translateY(-2px);
+        }
+        .btn-register:active { transform:scale(.985); }
+        .btn-register:disabled { opacity:.48; cursor:not-allowed; transform:none; }
+
+        #status {
+            text-align:center;
+            font-size:.8rem;
+            margin-top:.8rem;
+            min-height:1.15rem;
+        }
+        .success { color:#4ade80; }
+        .error   { color:#f87171; }
+
+        .card-footer {
+            margin-top:1.6rem;
+            padding-top:1.45rem;
+            border-top:1px solid var(--border);
+            text-align:center;
+        }
+        .card-footer p {
+            font-size:.8rem;
+            color:var(--muted);
+            margin-bottom:.65rem;
+        }
+        .btn-login {
+            display:inline-block;
+            padding:.58rem 1.55rem;
+            border:1px solid rgba(0,245,255,0.32);
+            border-radius:2rem;
+            color:var(--c1);
+            font-size:.82rem;
+            font-weight:500;
+            text-decoration:none;
+            transition:background .22s, box-shadow .22s, transform .15s;
+            letter-spacing:.03em;
+        }
+        .btn-login:hover {
+            background:rgba(0,245,255,0.09);
+            box-shadow:0 0 18px rgba(0,245,255,0.22);
+            transform:translateY(-1px);
+        }
+
+        /* ===================== MOBILE ===================== */
+        @media (max-width:820px) {
+            .split { flex-direction:column; }
+            .left {
+                position:relative;
+                height:auto;
+                flex:none;
+                padding:3rem 2rem 2.2rem;
+            }
+            .mic-container { display:none; }
+            .divider-v { display:none; }
+            .right { padding:1.8rem 1.5rem 3rem; }
+            .form-row { grid-template-columns:1fr; }
+            .brand-name { font-size:2.3rem; }
+            .card { padding:2.1rem 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="split">
+
+    <!-- LEFT -->
+    <div class="left">
+        <div class="left-grid"></div>
+        <div class="left-content">
+            <p class="brand-label">Performer Booking System</p>
+            <h1 class="brand-name">JPRODUCTIONS</h1>
+            <p class="left-desc">Join the community and get access to the performer booking system.</p>
+            <div class="steps">
+                <div class="step"><span class="step-num">1</span><span class="step-text">Fill in your details</span></div>
+                <div class="step"><span class="step-num">2</span><span class="step-text">Create your account</span></div>
+                <div class="step"><span class="step-num">3</span><span class="step-text">Book a performance</span></div>
+            </div>
+        </div>
+
+        <!-- Moving Mic -->
+        <div class="mic-container">
+            <div class="wave wave-1"></div>
+            <div class="wave wave-2"></div>
+            <div class="wave wave-3"></div>
+            <svg class="mic-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="micGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ff6b9d"/>
+                        <stop offset="50%" stop-color="#c77dff"/>
+                        <stop offset="100%" stop-color="#00f5ff"/>
+                    </linearGradient>
+                </defs>
+                <rect x="22" y="8" width="20" height="28" rx="10" class="mic-body"/>
+                <path d="M32 36v10" class="mic-stand"/>
+                <path d="M22 46h20" class="mic-stand"/>
+                <path d="M18 50h28" class="mic-stand"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="divider-v"></div>
+
+    <!-- RIGHT -->
+    <div class="right">
+        <div class="card-wrap">
+            <div class="card">
+                <p class="card-eyebrow">GET STARTED</p>
+                <h2 class="card-title">Create Account</h2>
+                <p class="card-sub">Join JPRODUCTIONS's booking system</p>
+
+                <form id="register-form">
+                    <div class="field">
+                        <label>Full Name</label>
+                        <input type="text" id="fullname" placeholder="Juan Dela Cruz" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="field">
+                            <label>Birthday</label>
+                            <input type="date" id="birthday" required>
+                        </div>
+                        <div class="field">
+                            <label>Gender</label>
+                            <select id="gender" required>
+                                <option value="" disabled selected>Select</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Country</label>
+                        <input type="text" id="country" placeholder="Philippines" required>
+                    </div>
+                    <div class="field">
+                        <label>Email Address</label>
+                        <input type="email" id="email" placeholder="juan@gmail.com" required>
+                    </div>
+                    <div class="field">
+                        <label>Password (min. 6 characters)</label>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-register" id="reg-btn">Create Account</button>
+                    <p id="status"></p>
+                </form>
+
+                <div class="card-footer">
+                    <p>Already have an account?</p>
+                    <a href="Login.html" class="btn-login">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    if (!firebase.apps.length) {
+        firebase.initializeApp({
+            apiKey: "AIzaSyDYRfZGOhmdyjNRFlNAsL15iEhPXlbCwxU",
+            authDomain: "justins-booking.firebaseapp.com",
+            projectId: "justins-booking",
+            storageBucket: "justins-booking.firebasestorage.app",
+            messagingSenderId: "1025617742708",
+            appId: "1:1025617742708:web:09d4fcc825a6f3513d7a21"
+        });
+    }
+    const db = firebase.firestore();
+
+    document.getElementById("register-form").addEventListener("submit", async e => {
+        e.preventDefault();
+        const s   = document.getElementById("status");
+        const btn = document.getElementById("reg-btn");
+
+        const fullname = document.getElementById("fullname").value.trim();
+        const birthday = document.getElementById("birthday").value;
+        const country  = document.getElementById("country").value.trim();
+        const email    = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const gender   = document.getElementById("gender").value;
+
+        if (password.length < 6) {
+            s.textContent = "Password must be at least 6 characters.";
+            s.className = "error";
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Creating account...";
+        s.textContent = "";
+        s.className = "";
+
+        try {
+            const existing = await db.collection("users").where("email", "==", email).get();
+            if (!existing.empty) {
+                s.textContent = "Email is already registered.";
+                s.className = "error";
+                btn.disabled = false;
+                btn.textContent = "Create Account";
+                return;
+            }
+            await db.collection("users").add({
+                fullname, birthday, country, email, password, gender,
+                registeredAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            s.textContent = "Account created! Redirecting to login...";
+            s.className = "success";
+            setTimeout(() => window.location.href = "Login.html", 1500);
+        } catch (err) {
+            s.textContent = "Something went wrong. Please try again.";
+            s.className = "error";
+            btn.disabled = false;
+            btn.textContent = "Create Account";
+        }
+    });
+</script>
+</body>
+</html>
