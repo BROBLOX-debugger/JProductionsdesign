@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — JPRODUCTIONS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <style>
+        .admin-shell { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+        .admin-top {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+            gap: 1rem; margin-bottom: 1.5rem;
+        }
+        .admin-top h1 {
+            font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--text), var(--c1), var(--c2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .admin-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+        .admin-actions a, .admin-actions button {
+            font-size: 0.85rem; font-weight: 500; padding: 0.5rem 0.95rem;
+            border-radius: 0.55rem; border: 1.5px solid var(--border);
+            background: var(--surface); color: var(--text); cursor: pointer;
+            font-family: 'Inter', sans-serif; text-decoration: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .admin-actions a:hover, .admin-actions button:hover {
+            border-color: color-mix(in srgb, var(--c1) 40%, transparent);
+        }
+        .admin-stats {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem; margin-bottom: 1.5rem;
+        }
+        @media (max-width: 700px) {
+            .admin-stats { grid-template-columns: repeat(2, 1fr); }
+        }
+        .stat-card {
+            background: var(--panel-bg); border: 1.5px solid var(--border);
+            border-radius: 0.85rem; padding: 1rem 1.1rem; text-align: center;
+        }
+        .stat-card .num {
+            font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 700; color: var(--c1);
+        }
+        .stat-card .lbl { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.2rem; }
+        .filter-row {
+            display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem;
+        }
+        .filter-btn {
+            padding: 0.4rem 0.85rem; border-radius: 2rem; border: 1.5px solid var(--border);
+            background: transparent; color: var(--text-muted); font-size: 0.8rem;
+            font-family: 'Inter', sans-serif; cursor: pointer; font-weight: 500;
+        }
+        .filter-btn.active {
+            background: color-mix(in srgb, var(--c1) 12%, transparent);
+            border-color: color-mix(in srgb, var(--c1) 40%, transparent);
+            color: var(--c1);
+        }
+        .aud-list { display: flex; flex-direction: column; gap: 1rem; }
+        .aud-card {
+            background: var(--panel-bg); border: 1.5px solid var(--border);
+            border-radius: 1rem; padding: 1.35rem 1.4rem; position: relative;
+        }
+        .aud-card::before {
+            content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3.5px;
+            background: linear-gradient(180deg, var(--c1), var(--c2));
+            border-radius: 1rem 0 0 1rem; opacity: 0.55;
+        }
+        .aud-card-head {
+            display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem;
+            margin-bottom: 0.85rem; align-items: flex-start;
+        }
+        .aud-name { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 600; color: var(--text); }
+        .aud-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }
+        .status-badge {
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+            padding: 0.3rem 0.7rem; border-radius: 2rem; text-transform: uppercase;
+            border: 1px solid;
+        }
+        .status-pending { color: var(--c4); border-color: color-mix(in srgb, var(--c4) 40%, transparent); background: color-mix(in srgb, var(--c4) 10%, transparent); }
+        .status-shortlisted { color: var(--c1); border-color: color-mix(in srgb, var(--c1) 40%, transparent); background: color-mix(in srgb, var(--c1) 10%, transparent); }
+        .status-accepted { color: #4ade80; border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.1); }
+        .status-passed { color: var(--text-dim); border-color: var(--border); background: var(--surface); }
+        .aud-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1.5rem; font-size: 0.88rem; margin-bottom: 0.9rem; }
+        @media (max-width: 600px) { .aud-body { grid-template-columns: 1fr; } }
+        .aud-body dt { color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.15rem; }
+        .aud-body dd { color: var(--text); margin-bottom: 0.55rem; word-break: break-word; }
+        .aud-why { grid-column: 1 / -1; }
+        .aud-link a { color: var(--c1); text-decoration: underline; }
+        .aud-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+        .aud-actions button {
+            font-size: 0.78rem; font-weight: 600; padding: 0.4rem 0.75rem;
+            border-radius: 0.5rem; border: 1.5px solid var(--border);
+            background: var(--surface); color: var(--text); cursor: pointer;
+            font-family: 'Inter', sans-serif; transition: 0.2s;
+        }
+        .aud-actions button:hover { border-color: var(--c1); color: var(--c1); }
+        .aud-actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .empty-state, .loading-state, .error-state {
+            text-align: center; padding: 3rem 1rem; color: var(--text-muted); font-size: 0.95rem;
+        }
+        .admin-gate {
+            max-width: 400px; margin: 4rem auto; padding: 2rem;
+            background: var(--panel-bg); border: 1.5px solid var(--border);
+            border-radius: 1rem; text-align: center;
+        }
+        .admin-gate h2 { font-family: 'Cinzel', serif; margin-bottom: 0.75rem; }
+        .admin-gate p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+        .admin-gate input {
+            width: 100%; padding: 0.75rem 1rem; border-radius: 0.6rem;
+            border: 1.5px solid var(--border); background: var(--input-bg);
+            color: var(--text); font-family: 'Inter', sans-serif; margin-bottom: 0.85rem;
+        }
+        .admin-gate .btn { width: 100%; }
+        #gate-error { color: #f87171; font-size: 0.85rem; min-height: 1.2rem; margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+
+<script>
+    // Must be logged in
+    if (!sessionStorage.getItem("loggedIn")) {
+        window.location.href = "Login.html";
+    }
+</script>
+
+<div id="admin-gate" class="admin-gate" style="display:none;">
+    <h2>Admin Access</h2>
+    <p>Enter the admin key to view auditions.</p>
+    <input type="password" id="admin-key" placeholder="Admin key" autocomplete="off">
+    <button class="btn btn-primary" id="admin-unlock">Unlock</button>
+    <p id="gate-error"></p>
+    <p style="margin-top:1rem;"><a href="HTML.html" style="color:var(--c1);font-size:0.85rem;">← Back to site</a></p>
+</div>
+
+<div id="admin-app" class="admin-shell" style="display:none;">
+    <div class="admin-top">
+        <h1>Auditions Admin</h1>
+        <div class="admin-actions">
+            <button type="button" id="btn-refresh">Refresh</button>
+            <a href="HTML.html">← Site</a>
+            <button type="button" id="btn-theme">Theme</button>
+        </div>
+    </div>
+
+    <div class="admin-stats">
+        <div class="stat-card"><div class="num" id="count-all">0</div><div class="lbl">Total</div></div>
+        <div class="stat-card"><div class="num" id="count-pending">0</div><div class="lbl">Pending</div></div>
+        <div class="stat-card"><div class="num" id="count-shortlisted">0</div><div class="lbl">Shortlisted</div></div>
+        <div class="stat-card"><div class="num" id="count-accepted">0</div><div class="lbl">Accepted</div></div>
+    </div>
+
+    <div class="filter-row">
+        <button type="button" class="filter-btn active" data-filter="all">All</button>
+        <button type="button" class="filter-btn" data-filter="pending">Pending</button>
+        <button type="button" class="filter-btn" data-filter="shortlisted">Shortlisted</button>
+        <button type="button" class="filter-btn" data-filter="accepted">Accepted</button>
+        <button type="button" class="filter-btn" data-filter="passed">Passed</button>
+    </div>
+
+    <div id="aud-list" class="aud-list">
+        <div class="loading-state">Loading auditions…</div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+(function () {
+    const ADMIN_KEY = "jproductions-admin"; // change this to your secret
+    const root = document.documentElement;
+    root.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
+
+    const gate = document.getElementById("admin-gate");
+    const app = document.getElementById("admin-app");
+
+    if (sessionStorage.getItem("adminUnlocked") === "true") {
+        gate.style.display = "none";
+        app.style.display = "block";
+    } else {
+        gate.style.display = "block";
+        app.style.display = "none";
+    }
+
+    document.getElementById("admin-unlock").addEventListener("click", () => {
+        const key = document.getElementById("admin-key").value;
+        if (key === ADMIN_KEY) {
+            sessionStorage.setItem("adminUnlocked", "true");
+            gate.style.display = "none";
+            app.style.display = "block";
+            loadAuditions();
+        } else {
+            document.getElementById("gate-error").textContent = "Wrong key.";
+        }
+    });
+
+    document.getElementById("admin-key").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") document.getElementById("admin-unlock").click();
+    });
+
+    document.getElementById("btn-theme").addEventListener("click", () => {
+        const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+    });
+
+    // Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyDYRfZGOhmdyjNRFlNAsL15iEhPXlbCwxU",
+        authDomain: "justins-booking.firebaseapp.com",
+        projectId: "justins-booking",
+        storageBucket: "justins-booking.firebasestorage.app",
+        messagingSenderId: "1025617742708",
+        appId: "1:1025617742708:web:09d4fcc825a6f3513d7a21"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let allDocs = [];
+    let currentFilter = "all";
+
+    function formatDate(ts) {
+        if (!ts) return "—";
+        try {
+            const d = ts.toDate ? ts.toDate() : new Date(ts);
+            return d.toLocaleString();
+        } catch { return "—"; }
+    }
+
+    function statusClass(s) {
+        return "status-" + (s || "pending");
+    }
+
+    function render() {
+        const list = document.getElementById("aud-list");
+        const filtered = currentFilter === "all"
+            ? allDocs
+            : allDocs.filter(d => (d.data.status || "pending") === currentFilter);
+
+        // counts
+        document.getElementById("count-all").textContent = allDocs.length;
+        document.getElementById("count-pending").textContent = allDocs.filter(d => (d.data.status || "pending") === "pending").length;
+        document.getElementById("count-shortlisted").textContent = allDocs.filter(d => d.data.status === "shortlisted").length;
+        document.getElementById("count-accepted").textContent = allDocs.filter(d => d.data.status === "accepted").length;
+
+        if (!filtered.length) {
+            list.innerHTML = '<div class="empty-state">No auditions in this filter.</div>';
+            return;
+        }
+
+        list.innerHTML = filtered.map(({ id, data }) => {
+            const st = data.status || "pending";
+            return `
+            <article class="aud-card" data-id="${id}">
+                <div class="aud-card-head">
+                    <div>
+                        <div class="aud-name">${escapeHtml(data.fullName || "—")}</div>
+                        <div class="aud-meta">${escapeHtml(data.city || "")} · ${formatDate(data.submittedAt)}</div>
+                    </div>
+                    <span class="status-badge ${statusClass(st)}">${escapeHtml(st)}</span>
+                </div>
+                <dl class="aud-body">
+                    <div><dt>Email</dt><dd>${escapeHtml(data.email || "—")}</dd></div>
+                    <div><dt>Phone</dt><dd>${escapeHtml(data.phone || "—")}</dd></div>
+                    <div><dt>Style</dt><dd>${escapeHtml(data.style || "—")}</dd></div>
+                    <div><dt>Experience</dt><dd>${escapeHtml(data.experience || "—")}</dd></div>
+                    <div><dt>Song</dt><dd>${escapeHtml(data.song || "—")}</dd></div>
+                    <div><dt>Weekends</dt><dd>${data.availableWeekends ? "Yes" : "No"}</dd></div>
+                    <div class="aud-why"><dt>Why JPRODUCTIONS</dt><dd>${escapeHtml(data.why || "—")}</dd></div>
+                    ${data.mediaLink ? `<div class="aud-link"><dt>Media</dt><dd><a href="${escapeAttr(data.mediaLink)}" target="_blank" rel="noopener">Open link</a></dd></div>` : ""}
+                </dl>
+                <div class="aud-actions">
+                    <button type="button" data-status="pending" ${st === "pending" ? "disabled" : ""}>Pending</button>
+                    <button type="button" data-status="shortlisted" ${st === "shortlisted" ? "disabled" : ""}>Shortlist</button>
+                    <button type="button" data-status="accepted" ${st === "accepted" ? "disabled" : ""}>Accept</button>
+                    <button type="button" data-status="passed" ${st === "passed" ? "disabled" : ""}>Pass</button>
+                </div>
+            </article>`;
+        }).join("");
+
+        list.querySelectorAll(".aud-actions button").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                const card = btn.closest(".aud-card");
+                const id = card.dataset.id;
+                const status = btn.dataset.status;
+                btn.disabled = true;
+                try {
+                    await db.collection("auditions").doc(id).update({
+                        status,
+                        reviewedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    const doc = allDocs.find(d => d.id === id);
+                    if (doc) doc.data.status = status;
+                    render();
+                } catch (err) {
+                    console.error(err);
+                    alert("Failed to update status.");
+                    btn.disabled = false;
+                }
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    }
+    function escapeAttr(str) {
+        return escapeHtml(str).replace(/'/g, "&#39;");
+    }
+
+    async function loadAuditions() {
+        const list = document.getElementById("aud-list");
+        list.innerHTML = '<div class="loading-state">Loading auditions…</div>';
+        try {
+            const snap = await db.collection("auditions").orderBy("submittedAt", "desc").get();
+            allDocs = snap.docs.map(d => ({ id: d.id, data: d.data() }));
+            render();
+        } catch (err) {
+            console.error(err);
+            // Fallback without orderBy if index missing
+            try {
+                const snap = await db.collection("auditions").get();
+                allDocs = snap.docs.map(d => ({ id: d.id, data: d.data() }));
+                allDocs.sort((a, b) => {
+                    const ta = a.data.submittedAt?.toMillis?.() || 0;
+                    const tb = b.data.submittedAt?.toMillis?.() || 0;
+                    return tb - ta;
+                });
+                render();
+            } catch (err2) {
+                list.innerHTML = '<div class="error-state">Could not load auditions. Check Firestore rules.</div>';
+            }
+        }
+    }
+
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentFilter = btn.dataset.filter;
+            render();
+        });
+    });
+
+    document.getElementById("btn-refresh").addEventListener("click", loadAuditions);
+
+    if (sessionStorage.getItem("adminUnlocked") === "true") {
+        loadAuditions();
+    }
+})();
+</script>
+</body>
+</html>
