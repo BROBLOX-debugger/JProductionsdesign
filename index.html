@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPRODUCTIONS — Justin Miranda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<script>
+    if (!sessionStorage.getItem("loggedIn")) {
+        window.location.href = "Login.html";
+    }
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = "Login.html";
+    }
+</script>
+
+<div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-top">
+            <a href="index.html" class="sidebar-brand">JPRODUCTIONS</a>
+            <button class="sidebar-close" id="sidebar-close" aria-label="Close menu">&times;</button>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">J</div>
+            <div class="user-info">
+                <span class="user-name" id="user-greeting">Guest</span>
+                <span class="user-role">Performer</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#hero" class="nav-item active" data-section="hero">
+                <span class="nav-icon">&#127968;</span>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="#about" class="nav-item" data-section="about">
+                <span class="nav-icon">&#128100;</span>
+                <span class="nav-label">About</span>
+            </a>
+            <a href="#services" class="nav-item" data-section="services">
+                <span class="nav-icon">&#127908;</span>
+                <span class="nav-label">Services</span>
+            </a>
+            <a href="#achievements" class="nav-item" data-section="achievements">
+                <span class="nav-icon">&#127942;</span>
+                <span class="nav-label">Achievements</span>
+            </a>
+            <a href="#booking" class="nav-item" data-section="booking">
+                <span class="nav-icon">&#128197;</span>
+                <span class="nav-label">Book Me</span>
+            </a>
+            <a href="#faq" class="nav-item" data-section="faq">
+                <span class="nav-icon">&#10067;</span>
+                <span class="nav-label">FAQ</span>
+            </a>
+            <a href="#audition" class="nav-item" data-section="audition">
+                <span class="nav-icon">&#127908;</span>
+                <span class="nav-label">Audition</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-divider"></div>
+
+        <nav class="sidebar-nav">
+            <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener" class="nav-item">
+                <span class="nav-icon">&#128247;</span>
+                <span class="nav-label">Instagram</span>
+            </a>
+            <a href="mailto:justinpheymiranda@gmail.com" class="nav-item">
+                <span class="nav-icon">&#9993;</span>
+                <span class="nav-label">Gmail</span>
+            </a>
+            <a href="tel:+639943624749" class="nav-item">
+                <span class="nav-icon">&#128222;</span>
+                <span class="nav-label">Contact</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="Admin.html" class="nav-item" style="margin-bottom:0.4rem;border:1.5px solid var(--border);">
+                <span class="nav-icon">&#9881;</span>
+                <span class="nav-label">Admin</span>
+            </a>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light">
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                </svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+                <span class="theme-label">Theme</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main-wrap">
+        <header class="mobile-bar">
+            <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+            <span class="mobile-brand">JPRODUCTIONS</span>
+            <button class="theme-toggle mobile-theme" id="theme-toggle-mobile" aria-label="Toggle theme">
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                </svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+        </header>
+
+        <main class="main-content">
+
+            <!-- HOME -->
+            <section id="hero" class="panel hero-panel view-section active-view">
+                <div class="hero-spotlight"></div>
+                <div class="hero-grain"></div>
+                <div class="hero-grid">
+                    <div class="hero-image-wrap">
+                        <div class="hero-image-glow"></div>
+                        <div class="hero-frame">
+                            <img src="images/Justinsssss.jpg" alt="Justin Miranda" class="hero-image">
+                        </div>
+                        <div class="hero-badge">Champion Vocalist</div>
+                        <div class="sound-waves" aria-hidden="true">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="live-badge">
+                            <span class="live-dot"></span>
+                            Available for bookings
+                        </div>
+                    </div>
+                    <div class="hero-content">
+                        <p class="eyebrow">Live Performer &bull; BSCS Student</p>
+                        <h1 class="hero-title">Justin Phey Miranda</h1>
+                        <p class="hero-lead">
+                            Champion vocalist delivering unforgettable live performances for weddings,
+                            birthdays, corporate events, and private celebrations. Balancing academic
+                            excellence in Computer Science with a deep passion for music.
+                        </p>
+                        <div class="hero-actions">
+                            <a href="#booking" class="btn btn-primary" data-section="booking">Book a Performance</a>
+                            <a href="#achievements" class="btn btn-ghost" data-section="achievements">View Achievements</a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-num">Champion</span>
+                                <span class="stat-label">Vocalist</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat">
+                                <span class="stat-num">Live</span>
+                                <span class="stat-label">Performer</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat">
+                                <span class="stat-num">BSCS</span>
+                                <span class="stat-label">Student</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABOUT -->
+            <section id="about" class="panel view-section">
+                <div class="section-header">
+                    <p class="eyebrow">Who I Am</p>
+                    <h2>About Me</h2>
+                </div>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>
+                            My name is <strong>Justin Phey Miranda</strong>. I am currently pursuing a
+                            <strong>Bachelor of Science in Computer Science</strong> while building a
+                            career as a professional vocalist and live performer.
+                        </p>
+                        <p>
+                            As a <strong>Champion Vocalist</strong>, I have competed in and won multiple
+                            singing competitions — proving dedication, stage presence, and vocal excellence.
+                            Beyond competitions, I regularly perform at live events, private functions,
+                            and special occasions.
+                        </p>
+                        <p>
+                            I believe in balancing academic growth with artistic passion. Whether on stage
+                            or in the classroom, I strive for excellence and continuous improvement.
+                        </p>
+                        <div class="about-tags">
+                            <span class="tag">Champion Vocalist</span>
+                            <span class="tag">Grand Champion</span>
+                            <span class="tag">Live Performer</span>
+                            <span class="tag">BSCS Student</span>
+                        </div>
+                    </div>
+                    <div class="about-side">
+                        <div class="info-card">
+                            <h3>Contact</h3>
+                            <a href="mailto:justinpheymiranda@gmail.com">justinpheymiranda@gmail.com</a>
+                            <a href="tel:+639943624749">+63 994 362 4749</a>
+                            <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener">@jstn_creep</a>
+                        </div>
+                        <div class="info-card">
+                            <h3>Available For</h3>
+                            <ul>
+                                <li>Weddings</li>
+                                <li>Birthdays</li>
+                                <li>Corporate Events</li>
+                                <li>Private Parties</li>
+                                <li>Community Programs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SERVICES -->
+            <section id="services" class="panel view-section">
+                <div class="section-header">
+                    <p class="eyebrow">What I Offer</p>
+                    <h2>How Can I Help You?</h2>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">&#127908;</div>
+                        <h3>Live Vocal Performance</h3>
+                        <p>Professional live singing for weddings, birthdays, corporate gatherings, and private celebrations. High energy, stage presence, and audience engagement.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">&#127942;</div>
+                        <h3>Featured Vocalist</h3>
+                        <p>Standout performances tailored to your event. From intimate acoustic sets to full high-energy shows — memorable moments every time.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">&#127911;</div>
+                        <h3>Recording Services</h3>
+                        <p>Professional recording for live performances and studio sessions. Clean, polished tracks for your special projects.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">&#127757;</div>
+                        <h3>Multi-Language Songs</h3>
+                        <p>I can perform songs in various languages. Just let me know your preferences when you book.</p>
+                    </div>
+                </div>
+                <div class="services-note">
+                    <p>I provide my own sound equipment for all performances.</p>
+                </div>
+            </section>
+
+            <!-- ACHIEVEMENTS -->
+            <section id="achievements" class="panel view-section">
+                <div class="section-header">
+                    <p class="eyebrow">Competition Wins</p>
+                    <h2>Achievements in Singing</h2>
+                </div>
+                <div class="achievements-grid">
+                    <div class="ach-item large">
+                        <img src="images/RAPSA.jpg" alt="Competition achievement">
+                    </div>
+                    <div class="ach-item">
+                        <img src="images/Justinrap.jpg" alt="Performance photo">
+                    </div>
+                    <div class="ach-item">
+                        <img src="images/Justin.jpg" alt="Justin performing">
+                    </div>
+                    <div class="ach-item">
+                        <img src="images/CHAMPION.jpg" alt="Champion award">
+                    </div>
+                    <div class="ach-item">
+                        <img src="images/champa.jpg" alt="Championship moment">
+                    </div>
+                </div>
+                <div class="achievements-cta">
+                    <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener" class="btn btn-primary">More on Instagram</a>
+                </div>
+            </section>
+
+            <!-- BOOKING -->
+            <section id="booking" class="panel view-section">
+                <div class="section-header">
+                    <p class="eyebrow">Get in Touch</p>
+                    <h2>Book Me for Your Event</h2>
+                    <p class="section-desc">Fill out the form below. Your booking goes directly into my database and I will get back to you as soon as possible.</p>
+                </div>
+                <form id="booking-form" class="booking-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="booking-name">Full Name</label>
+                            <input type="text" id="booking-name" name="name" placeholder="Juan Dela Cruz" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="booking-date">Date of Event</label>
+                            <input type="date" id="booking-date" name="date" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="booking-song">Song list you want to hear</label>
+                        <input type="text" id="booking-song" name="song" placeholder="Ex. Perfect - Ed Sheeran, All of Me - John Legend" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Send Booking Request</button>
+                    <p id="booking-status" role="status"></p>
+                </form>
+            </section>
+
+            <!-- FAQ -->
+            <section id="faq" class="panel view-section">
+                <div class="section-header">
+                    <p class="eyebrow">Common Questions</p>
+                    <h2>Frequently Asked Questions</h2>
+                </div>
+                <div class="faq-list">
+                    <details>
+                        <summary>What types of events do you perform at?</summary>
+                        <p>I perform at weddings, birthdays, corporate gatherings, private celebrations, and community programs.</p>
+                    </details>
+                    <details>
+                        <summary>How far in advance should I book?</summary>
+                        <p>It is best to book as early as possible, especially during peak seasons. I recommend booking at least a few weeks in advance.</p>
+                    </details>
+                    <details>
+                        <summary>Do you offer recording services?</summary>
+                        <p>Yes. I offer professional recording services for both live performances and studio sessions.</p>
+                    </details>
+                    <details>
+                        <summary>Can you sing in different languages?</summary>
+                        <p>Yes. I can perform songs in various languages. Please let me know your preferences when booking.</p>
+                    </details>
+                    <details>
+                        <summary>Do you provide your own sound system?</summary>
+                        <p>Yes. I provide my own sound equipment for all performances.</p>
+                    </details>
+                </div>
+            </section>
+
+            <!-- AUDITION -->
+            <section id="audition" class="panel view-section">
+                <div class="section-header">
+                    <p class="eyebrow">Open Call</p>
+                    <h2>Audition for JPRODUCTIONS</h2>
+                    <p class="section-desc">
+                        Looking for stage-ready vocalists who take performance seriously.
+                        Submit your audition — shortlisted talents may join live sets and collaborations.
+                    </p>
+                </div>
+
+                <div class="audition-layout">
+                    <div class="audition-info">
+                        <div class="info-card">
+                            <h3>What we&rsquo;re looking for</h3>
+                            <ul>
+                                <li>Strong live vocal control</li>
+                                <li>Stage presence &amp; energy</li>
+                                <li>Reliability for real gigs</li>
+                                <li>OPM, Pop, Ballad, or R&amp;B comfort</li>
+                            </ul>
+                        </div>
+                        <div class="info-card">
+                            <h3>How it works</h3>
+                            <ul>
+                                <li>Fill out the form completely</li>
+                                <li>Include a video or audio link if you can</li>
+                                <li>We review every submission</li>
+                                <li>Shortlisted applicants get contacted</li>
+                            </ul>
+                        </div>
+                        <div class="info-card audition-note">
+                            <h3>Note</h3>
+                            <p>This is not an event booking. This is an audition to perform with JPRODUCTIONS.</p>
+                        </div>
+                    </div>
+
+                    <form id="audition-form" class="audition-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="aud-name">Full Name</label>
+                                <input type="text" id="aud-name" placeholder="Gian Gaerlan" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="aud-birthday">Birthday</label>
+                                <input type="date" id="aud-birthday" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="aud-city">City / Area</label>
+                                <input type="text" id="aud-city" placeholder="Quezon City" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="aud-phone">Phone</label>
+                                <input type="tel" id="aud-phone" placeholder="+63 9XX XXX XXXX" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="aud-email">Email</label>
+                            <input type="email" id="aud-email" placeholder="ronatoxdominic@gmail.com" required autocomplete="email">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="aud-style">Vocal style</label>
+                                <select id="aud-style" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option>Pop</option>
+                                    <option>Ballad</option>
+                                    <option>R&amp;B</option>
+                                    <option>OPM</option>
+                                    <option>Rock</option>
+                                    <option>Mixed / Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="aud-experience">Years performing</label>
+                                <select id="aud-experience" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option>Less than 1 year</option>
+                                    <option>1–2 years</option>
+                                    <option>3–5 years</option>
+                                    <option>5+ years</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="aud-song">Signature audition song</label>
+                            <input type="text" id="aud-song" placeholder="Ex. Buwan - Juan Karlos" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="aud-why">Why JPRODUCTIONS? <span class="label-hint">(2–3 sentences)</span></label>
+                            <textarea id="aud-why" rows="3" placeholder="Tell us why you want to perform with JPRODUCTIONS..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="aud-link">Video / audio link <span class="label-hint">(YouTube, Drive, TikTok — optional but recommended)</span></label>
+                            <input type="url" id="aud-link" placeholder="https://youtube.com/...">
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="check-label">
+                                <input type="checkbox" id="aud-weekend" value="yes">
+                                Available for weekend gigs
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="aud-btn">Submit Audition</button>
+                        <p id="audition-status" role="status"></p>
+                    </form>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="footer panel">
+                <div class="footer-brand">JPRODUCTIONS</div>
+                <div class="footer-links">
+                    <a href="mailto:justinpheymiranda@gmail.com">Gmail</a>
+                    <a href="https://www.facebook.com/uwuwuwuuwuwuwwuuw" target="_blank" rel="noopener">Facebook</a>
+                    <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener">Instagram</a>
+                    <a href="tel:+639943624749">+63 994 362 4749</a>
+                </div>
+                <p class="footer-copy">&copy; 2026 Justin Miranda. All rights reserved.</p>
+            </footer>
+
+        </main>
+    </div>
+</div>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<script>
+    // Username handling
+    const userName = sessionStorage.getItem("userName");
+    if (userName) {
+        document.getElementById("user-greeting").textContent = userName;
+        const avatar = document.querySelector(".user-avatar");
+        if (avatar) avatar.textContent = userName.charAt(0).toUpperCase();
+    }
+
+    // Theme toggling
+    const root = document.documentElement;
+    root.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
+
+    function toggleTheme() {
+        const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+    }
+    document.getElementById("theme-toggle")?.addEventListener("click", toggleTheme);
+    document.getElementById("theme-toggle-mobile")?.addEventListener("click", toggleTheme);
+
+    // Sidebar mechanics
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebar-overlay");
+    const menuBtn = document.getElementById("menu-btn");
+    const closeBtn = document.getElementById("sidebar-close");
+
+    function openSidebar() {
+        sidebar.classList.add("open");
+        overlay.classList.add("show");
+        document.body.style.overflow = "hidden";
+    }
+    function closeSidebar() {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+        document.body.style.overflow = "";
+    }
+    menuBtn?.addEventListener("click", openSidebar);
+    closeBtn?.addEventListener("click", closeSidebar);
+    overlay?.addEventListener("click", closeSidebar);
+
+    // Section view switching
+    const views = document.querySelectorAll(".view-section");
+    const navItems = document.querySelectorAll(".sidebar-nav .nav-item[data-section]");
+
+    function showSection(id) {
+        views.forEach(v => v.classList.toggle("active-view", v.id === id));
+        navItems.forEach(item => item.classList.toggle("active", item.dataset.section === id));
+        window.scrollTo(0, 0);
+        if (window.innerWidth <= 900) closeSidebar();
+        history.replaceState(null, "", "#" + id);
+    }
+
+    navItems.forEach(item => {
+        item.addEventListener("click", e => {
+            e.preventDefault();
+            if (item.dataset.section) showSection(item.dataset.section);
+        });
+    });
+
+    document.querySelectorAll(".btn[data-section]").forEach(btn => {
+        btn.addEventListener("click", e => {
+            e.preventDefault();
+            if (btn.dataset.section) showSection(btn.dataset.section);
+        });
+    });
+
+    const valid = ["hero", "about", "services", "achievements", "booking", "faq", "audition"];
+    const initial = (location.hash || "#hero").replace("#", "");
+    showSection(valid.includes(initial) ? initial : "hero");
+</script>
+
+<script src="firebase-config.js"></script>
+</body>
+</html>
