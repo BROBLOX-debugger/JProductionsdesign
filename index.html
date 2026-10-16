@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 </head>
@@ -16,11 +15,11 @@
 
 <script>
     if (!sessionStorage.getItem("loggedIn")) {
-        window.location.href = "Login.html";
+        window.location.href = "login.html";
     }
     function logout() {
         sessionStorage.clear();
-        window.location.href = "Login.html";
+        window.location.href = "login.html";
     }
 </script>
 
@@ -90,7 +89,7 @@
         </nav>
 
         <div class="sidebar-footer">
-            <a href="Admin.html" class="nav-item" style="margin-bottom:0.4rem;border:1.5px solid var(--border);">
+            <a href="admin.html" class="nav-item" style="margin-bottom:0.4rem;border:1.5px solid var(--border);">
                 <span class="nav-icon">&#9881;</span>
                 <span class="nav-label">Admin</span>
             </a>
