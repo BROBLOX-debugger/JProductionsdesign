@@ -80,12 +80,32 @@ ul { list-style:none; }
     background: var(--sidebar-bg);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border-right: 1.5px solid var(--border);
+    border-right: none !important;
     display: flex;
     flex-direction: column;
     z-index: 300;
     transition: transform 0.3s ease, background 0.35s ease, border-color 0.35s ease;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--c1) 30%, transparent) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--c1) 30%, var(--border));
+    border-radius: 10px;
+    transition: background 0.2s ease;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--c1);
 }
 
 .sidebar-top {
@@ -356,37 +376,30 @@ ul { list-style:none; }
     min-height: calc(100vh - 2rem);
 }
 
+/* PROFESSIONAL PANTAY NA PANEL STYLING (WALANG PUTOL NA BORDER) */
 .panel {
     background: var(--panel-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1.5px solid var(--border);
     border-radius: 1.1rem;
     padding: 2.25rem 2rem;
     margin-bottom: 1.75rem;
     position: relative;
     box-shadow: var(--shadow);
     transition: background 0.35s, border-color 0.35s, box-shadow 0.35s;
+
+    /* Tuloy-tuloy at propesyonal na gradient border para sa lahat ng pahina */
+    border: 1.5px solid transparent;
+    background-image: 
+        linear-gradient(var(--panel-bg), var(--panel-bg)), 
+        linear-gradient(135deg, var(--c1) 0%, var(--c2) 50%, var(--c3) 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 }
 
-.panel::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2.5px;
-    background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4));
-    border-radius: 1.1rem 1.1rem 0 0;
-    opacity: 0.75;
-}
-
-.panel::after {
-    content: '';
-    position: absolute;
-    top: 14px; bottom: 14px; left: 0;
-    width: 3.5px;
-    background: linear-gradient(180deg, var(--c1), var(--c2));
-    border-radius: 0 4px 4px 0;
-    opacity: 0.55;
+.panel > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* HERO */
@@ -1254,30 +1267,4 @@ details p {
     .hero-image { width: 200px; height: 200px; }
     .sound-waves { display: none; }
     .live-badge { font-size: 0.62rem; }
-}
-/* =========================================================
-   SIDEBAR & CUSTOM SCROLLBAR UI FIX
-   ========================================================= */
-.sidebar {
-    border-right: none !important;
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--c1) 30%, transparent) transparent;
-}
-
-.sidebar::-webkit-scrollbar {
-    width: 5px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--c1) 30%, var(--border));
-    border-radius: 10px;
-    transition: background 0.2s ease;
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background: var(--c1);
 }
