@@ -1256,7 +1256,7 @@ details p {
     .live-badge { font-size: 0.62rem; }
 }
 /* =========================================================
-   SIDEBAR & SCROLLBAR CUSTOMIZATION (UI/UX FIX)
+   SIDEBAR & CUSTOM SCROLLBAR UI FIX
    ========================================================= */
 .sidebar {
     border-right: none !important;
