@@ -78,6 +78,7 @@
         </nav>
 
         <div class="sidebar-footer">
+            <!-- NAKATAGO BY DEFAULT AT LALABAS LAMANG SA TAMANG ADMIN ACCOUNT -->
             <a href="admin.html" class="nav-item" id="admin-nav-link" style="display: none; margin-bottom: 0.4rem; border: 1.5px solid var(--border);">
                 <span class="nav-label">System Administration</span>
             </a>
@@ -414,11 +415,10 @@
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 <script>
-    // Siguraduhing lumalabas ang Admin link para sa admin account
+    // STRICT ADMIN CHECK: IPAPAKITA LAMANG KUNG JUSTINPHEYMIRANDA@GMAIL.COM ANG NAKA-LOGIN
     const userEmail = sessionStorage.getItem("userEmail");
-    const userName = sessionStorage.getItem("userName");
 
-    if (userEmail === "justinpheymiranda@gmail.com" || userName === "Justin Phey Miranda" || sessionStorage.getItem("loggedIn") === "true") {
+    if (userEmail && userEmail.toLowerCase() === "justinpheymiranda@gmail.com") {
         const adminNavLink = document.getElementById("admin-nav-link");
         if (adminNavLink) {
             adminNavLink.style.display = "flex";
@@ -491,13 +491,3 @@
 <script src="firebase-config.js"></script>
 </body>
 </html>
-
-// Strict Admin Check: Lalabas LAMANG ang link kung ang account ay justinpheymiranda@gmail.com
-const userEmail = sessionStorage.getItem("userEmail");
-
-if (userEmail && userEmail.toLowerCase() === "justinpheymiranda@gmail.com") {
-    const adminNavLink = document.getElementById("admin-nav-link");
-    if (adminNavLink) {
-        adminNavLink.style.display = "flex";
-    }
-}
