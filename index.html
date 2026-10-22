@@ -35,8 +35,7 @@
         <div class="sidebar-user">
             <div class="user-avatar">J</div>
             <div class="user-info">
-                <span class="user-name" id="user-greeting">Guest</span>
-                <span class="user-role">Client / Performer</span>
+                <span class="user-name" id="user-greeting">Justin Miranda</span>
             </div>
         </div>
 
@@ -79,7 +78,7 @@
         </nav>
 
         <div class="sidebar-footer">
-            <a href="admin.html" class="nav-item" style="margin-bottom:0.4rem;border:1.5px solid var(--border);">
+            <a href="admin.html" class="nav-item" id="admin-nav-link" style="display: none; margin-bottom: 0.4rem; border: 1.5px solid var(--border);">
                 <span class="nav-label">System Administration</span>
             </a>
             <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light">
@@ -182,10 +181,6 @@
                             stage reliability, and technical vocal competence across multiple music genres. 
                             I approach every engagement with professional punctuality and high performance standards.
                         </p>
-                        <p>
-                            My dual pursuit of technology and the performing arts enables me to design systematic, 
-                            seamless event experiences backed by digital solutions.
-                        </p>
                         <div class="about-tags">
                             <span class="tag">Professional Vocalist</span>
                             <span class="tag">Grand Champion</span>
@@ -207,7 +202,6 @@
                                 <li>Corporate Conferences & Galas</li>
                                 <li>Private Celebrations & Dinners</li>
                                 <li>Institutional Programs</li>
-                                <li>Studio Session Collaborations</li>
                             </ul>
                         </div>
                     </div>
@@ -237,9 +231,6 @@
                         <h3>Multi-Lingual Repertoire</h3>
                         <p>Diverse song selection covering multiple languages and regional dialects, customized per client specifications.</p>
                     </div>
-                </div>
-                <div class="services-note">
-                    <p>Standard rider includes independent, professional-grade sound reinforcement equipment.</p>
                 </div>
             </section>
 
@@ -281,7 +272,7 @@
                 <form id="booking-form" class="booking-form">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="booking-name">Client Full Name</label>
+                            <label for="booking-name">Full Name</label>
                             <input type="text" id="booking-name" name="name" placeholder="Enter full name" required autocomplete="name">
                         </div>
                         <div class="form-group">
@@ -291,7 +282,7 @@
                     </div>
                     <div class="form-group">
                         <label for="booking-song">Requested Repertoire / Song Selection</label>
-                        <input type="text" id="booking-song" name="song" placeholder="e.g., Classical ballads, OPM standards, customized track list" required>
+                        <input type="text" id="booking-song" name="song" placeholder="e.g., Classical ballads, OPM standards" required>
                     </div>
                     <button type="submit" class="btn btn-primary btn-full">Submit Booking Application</button>
                     <p id="booking-status" role="status"></p>
@@ -311,19 +302,11 @@
                     </details>
                     <details>
                         <summary>What is the recommended booking lead time?</summary>
-                        <p>Clients are advised to submit booking requests at least four to six weeks prior to the target event date to ensure calendar availability.</p>
+                        <p>It is advised to submit booking requests at least four to six weeks prior to the target event date.</p>
                     </details>
                     <details>
                         <summary>Are studio recording services available?</summary>
-                        <p>Yes, vocal session recordings are accommodated subject to schedule verification and project scope evaluation.</p>
-                    </details>
-                    <details>
-                        <summary>Can customized song requests be fulfilled?</summary>
-                        <p>Yes. Special musical requests and multi-language selections can be integrated into the program with adequate preparation time.</p>
-                    </details>
-                    <details>
-                        <summary>Is technical sound equipment provided?</summary>
-                        <p>A self-contained, professional-grade sound system is supplied for standard venue requirements.</p>
+                        <p>Yes, vocal session recordings are accommodated subject to schedule verification.</p>
                     </details>
                 </div>
             </section>
@@ -334,8 +317,7 @@
                     <p class="eyebrow">Talent Evaluation</p>
                     <h2>JPRODUCTIONS Audition Portal</h2>
                     <p class="section-desc">
-                        Open application call for disciplined, stage-ready vocalists. 
-                        Qualified candidates may be invited for collaborative performances and project partnerships.
+                        Open application call for disciplined, stage-ready vocalists.
                     </p>
                 </div>
 
@@ -349,19 +331,6 @@
                                 <li>Punctuality and schedule reliability</li>
                                 <li>Proficiency in OPM, Pop, or R&amp;B</li>
                             </ul>
-                        </div>
-                        <div class="info-card">
-                            <h3>Application Workflow</h3>
-                            <ul>
-                                <li>Complete all required fields accurately</li>
-                                <li>Attach valid portfolio links (Drive, YouTube)</li>
-                                <li>Internal review by management</li>
-                                <li>Direct notification for shortlisted applicants</li>
-                            </ul>
-                        </div>
-                        <div class="info-card audition-note">
-                            <h3>System Notice</h3>
-                            <p>This form is strictly designated for performer auditions, separate from client event reservations.</p>
                         </div>
                     </div>
 
@@ -388,7 +357,7 @@
                         </div>
                         <div class="form-group">
                             <label for="aud-email">Email Address</label>
-                            <input type="email" id="aud-email" placeholder="client@domain.com" required autocomplete="email">
+                            <input type="email" id="aud-email" placeholder="email@domain.com" required autocomplete="email">
                         </div>
                         <div class="form-row">
                             <div class="form-group">
@@ -399,8 +368,6 @@
                                     <option>Ballad</option>
                                     <option>R&amp;B</option>
                                     <option>OPM</option>
-                                    <option>Rock</option>
-                                    <option>Mixed / Other</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -416,21 +383,11 @@
                         </div>
                         <div class="form-group">
                             <label for="aud-song">Signature Audition Piece</label>
-                            <input type="text" id="aud-song" placeholder="e.g., Standard vocal piece title" required>
+                            <input type="text" id="aud-song" placeholder="Song title" required>
                         </div>
                         <div class="form-group">
-                            <label for="aud-why">Statement of Purpose <span class="label-hint">(2–3 concise sentences)</span></label>
+                            <label for="aud-why">Statement of Purpose</label>
                             <textarea id="aud-why" rows="3" placeholder="Briefly state your artistic motivation..." required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="aud-link">Portfolio Resource URL <span class="label-hint">(Cloud drive or video link)</span></label>
-                            <input type="url" id="aud-link" placeholder="https://...">
-                        </div>
-                        <div class="form-group form-check">
-                            <label class="check-label">
-                                <input type="checkbox" id="aud-weekend" value="yes">
-                                Available for weekend performance schedules
-                            </label>
                         </div>
                         <button type="submit" class="btn btn-primary btn-full" id="aud-btn">Submit Audition Credentials</button>
                         <p id="audition-status" role="status"></p>
@@ -443,9 +400,9 @@
                 <div class="footer-brand">JPRODUCTIONS</div>
                 <div class="footer-links">
                     <a href="mailto:justinpheymiranda@gmail.com">Official Email</a>
-                    <a href="https://www.facebook.com/uwuwuwuuwuwuwwuuw" target="_blank" rel="noopener">Facebook Profile</a>
-                    <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener">Instagram Portfolio</a>
-                    <a href="tel:+639943624749">Direct Inquiries</a>
+                    <a href="https://www.facebook.com/uwuwuwuuwuwuwwuuw" target="_blank" rel="noopener">Facebook</a>
+                    <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener">Instagram</a>
+                    <a href="tel:+639943624749">Inquiries</a>
                 </div>
                 <p class="footer-copy">&copy; 2026 Justin Miranda. All rights reserved.</p>
             </footer>
@@ -457,12 +414,15 @@
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 <script>
-    // Username handling
+    // Siguraduhing lumalabas ang Admin link para sa admin account
+    const userEmail = sessionStorage.getItem("userEmail");
     const userName = sessionStorage.getItem("userName");
-    if (userName) {
-        document.getElementById("user-greeting").textContent = userName;
-        const avatar = document.querySelector(".user-avatar");
-        if (avatar) avatar.textContent = userName.charAt(0).toUpperCase();
+
+    if (userEmail === "justinpheymiranda@gmail.com" || userName === "Justin Phey Miranda" || sessionStorage.getItem("loggedIn") === "true") {
+        const adminNavLink = document.getElementById("admin-nav-link");
+        if (adminNavLink) {
+            adminNavLink.style.display = "flex";
+        }
     }
 
     // Theme toggling
