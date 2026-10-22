@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Registration — JPRODUCTIONS</title>
+    <title>Create Account — JPRODUCTIONS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -15,108 +14,276 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
     <style>
-        /* Pormal at Eksklusibong Styling para sa Register Page */
+        :root {
+            --c1: #c084fc;
+            --c2: #f472b6;
+            --c3: #60a5fa;
+            --bg: #0a0a0f;
+            --panel-bg: rgba(18, 18, 28, 0.85);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --input-bg: rgba(255, 255, 255, 0.04);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --input-focus: rgba(192, 132, 252, 0.5);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            --radius: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             padding: 1.5rem;
+            background-image: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(192, 132, 252, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 100%, rgba(244, 114, 182, 0.08), transparent);
         }
 
         .auth-container {
             width: 100%;
-            max-width: 440px;
+            max-width: 420px;
         }
 
         .auth-panel {
             background: var(--panel-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid var(--border);
-            border-radius: 1.25rem;
-            padding: 2.5rem 2rem;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.75rem 2.25rem;
             position: relative;
             box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
         .auth-panel::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 3px;
             background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
-            border-radius: 1.25rem 1.25rem 0 0;
         }
 
         .auth-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.25rem;
+        }
+
+        .auth-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--c2);
+            margin-bottom: 0.6rem;
         }
 
         .auth-brand {
             font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
+            font-size: 1.85rem;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--text), var(--c1), var(--c2));
+            letter-spacing: 0.02em;
+            background: linear-gradient(135deg, #fff 30%, var(--c1), var(--c2));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.5rem;
-            display: inline-block;
+            margin-bottom: 0.4rem;
         }
 
         .auth-subtitle {
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
+            font-weight: 400;
         }
 
         .auth-form {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1.15rem;
         }
 
-        .auth-footer-text {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.85rem;
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.78rem;
+            font-weight: 500;
             color: var(--text-muted);
+            letter-spacing: 0.01em;
         }
 
-        .auth-footer-text a {
-            color: var(--c1);
-            font-weight: 600;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.9rem;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: #71717a;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--c1);
+            box-shadow: 0 0 0 3px var(--input-focus);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* Date input — force white calendar icon */
+        input[type="date"] {
+            color-scheme: dark;
+            position: relative;
+            cursor: pointer;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) brightness(1.8);
+            opacity: 0.9;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
             transition: opacity 0.2s;
         }
 
-        .auth-footer-text a:hover {
-            opacity: 0.8;
-            text-decoration: underline;
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Firefox */
+        input[type="date"]::-moz-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a1a1aa' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+            cursor: pointer;
+        }
+
+        select option {
+            background: #1a1a24;
+            color: var(--text);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.95rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e879f9, #c084fc, #a78bfa);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(192, 132, 252, 0.35);
+            margin-top: 0.4rem;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(192, 132, 252, 0.45);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .btn-full {
+            width: 100%;
         }
 
         #auth-status {
             text-align: center;
             font-size: 0.85rem;
+            font-weight: 500;
+            min-height: 1.3rem;
+            margin-top: 0.25rem;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.75rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .auth-footer a {
+            color: var(--c1);
             font-weight: 600;
-            min-height: 1.2rem;
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
-        /* Pag-aayos sa Calendar Icon at Color Picker para hindi umitim o pumangit */
-        input[type="date"] {
-            color-scheme: dark;
-            cursor: pointer;
+        .auth-footer a:hover {
+            color: var(--c2);
+            text-decoration: underline;
         }
 
-        [data-theme="light"] input[type="date"] {
-            color-scheme: light;
+        /* Mobile */
+        @media (max-width: 480px) {
+            .auth-panel {
+                padding: 2rem 1.5rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .auth-brand {
+                font-size: 1.6rem;
+            }
         }
     </style>
 </head>
 <body>
-
 <script>
-    // Awtomatikong i-apply ang theme bago mag-load ang page para walang flash
     const root = document.documentElement;
     root.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
 </script>
@@ -124,32 +291,58 @@
 <div class="auth-container">
     <div class="auth-panel">
         <div class="auth-header">
-            <div class="auth-brand">JPRODUCTIONS</div>
-            <p class="auth-subtitle">Create your secure system account</p>
+            <div class="auth-label">Get Started</div>
+            <div class="auth-brand">CREATE ACCOUNT</div>
+            <p class="auth-subtitle">Join JPRODUCTIONS’s booking system</p>
         </div>
 
         <form id="register-form" class="auth-form">
             <div class="form-group">
                 <label for="reg-name">Full Name</label>
-                <input type="text" id="reg-name" placeholder="Enter complete legal name" required autocomplete="name">
+                <input type="text" id="reg-name" placeholder="Isaiah Romero Ronato" required autocomplete="name">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg-birthday">Birthday</label>
+                    <input type="date" id="reg-birthday" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-gender">Gender</label>
+                    <select id="reg-gender" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                        <option value="prefer-not">Prefer not to say</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="reg-country">Country</label>
+                <input type="text" id="reg-country" placeholder="Philippines" required autocomplete="country-name">
             </div>
 
             <div class="form-group">
                 <label for="reg-email">Email Address</label>
-                <input type="email" id="reg-email" placeholder="name@domain.com" required autocomplete="email">
+                <input type="email" id="reg-email" placeholder="renebaterbonia@gmail.com" required autocomplete="email">
             </div>
 
             <div class="form-group">
-                <label for="reg-password">Password</label>
-                <input type="password" id="reg-password" placeholder="At least 6 characters" required autocomplete="new-password">
+                <label for="reg-password">Password <span style="opacity:0.6">(min. 8 characters)</span></label>
+                <input type="password" id="reg-password" placeholder="••••••••" minlength="8" required autocomplete="new-password">
             </div>
 
-            <button type="submit" class="btn btn-primary btn-full" id="reg-btn">Complete Registration</button>
+            <button type="submit" class="btn btn-primary btn-full" id="reg-btn">
+                Create Account
+            </button>
+
             <p id="auth-status" role="status"></p>
         </form>
 
-        <div class="auth-footer-text">
-            Already have an access account? <a href="login.html">Sign In</a>
+        <div class="auth-footer">
+            Already have an account? <a href="login.html">Sign In</a>
         </div>
     </div>
 </div>
@@ -162,42 +355,46 @@
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
+
         const name = document.getElementById("reg-name").value.trim();
+        const birthday = document.getElementById("reg-birthday").value;
+        const gender = document.getElementById("reg-gender").value;
+        const country = document.getElementById("reg-country").value.trim();
         const email = document.getElementById("reg-email").value.trim();
         const password = document.getElementById("reg-password").value;
 
         btn.disabled = true;
         statusEl.style.color = "var(--text-muted)";
-        statusEl.textContent = "Creating secure account...";
+        statusEl.textContent = "Creating your account…";
 
         try {
-            // Paglikha ng account sa Firebase Auth
             const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
 
-            // Pag-save ng karagdagang impormasyon sa Firestore database
             await firebase.firestore().collection("users").doc(user.uid).set({
                 fullName: name,
+                birthday: birthday,
+                gender: gender,
+                country: country,
                 email: email,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            statusEl.style.color = "#10b981";
-            statusEl.textContent = "Registration successful! Redirecting...";
+            statusEl.style.color = "#34d399";
+            statusEl.textContent = "Account created successfully! Redirecting…";
 
-            // Itala sa session storage para sa awtomatikong pagpasok
             sessionStorage.setItem("loggedIn", "true");
             sessionStorage.setItem("userEmail", email);
             localStorage.setItem("userEmail", email);
 
             setTimeout(() => {
                 window.location.href = "index.html";
-            }, 1000);
+            }, 1100);
 
         } catch (err) {
             console.error("Registration error:", err);
-            statusEl.style.color = "#ef4444";
-            statusEl.textContent = err.message || "Registration failed. Please check your inputs.";
+            statusEl.style.color = "#f87171";
+            statusEl.textContent = err.message || "Registration failed. Please check your details.";
             btn.disabled = false;
         }
     });
