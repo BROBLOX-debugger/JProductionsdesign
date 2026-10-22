@@ -1255,3 +1255,29 @@ details p {
     .sound-waves { display: none; }
     .live-badge { font-size: 0.62rem; }
 }
+/* =========================================================
+   SIDEBAR & SCROLLBAR CUSTOMIZATION (UI/UX FIX)
+   ========================================================= */
+.sidebar {
+    border-right: none !important;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--c1) 30%, transparent) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--c1) 30%, var(--border));
+    border-radius: 10px;
+    transition: background 0.2s ease;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--c1);
+}
