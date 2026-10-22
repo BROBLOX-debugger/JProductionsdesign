@@ -491,3 +491,13 @@
 <script src="firebase-config.js"></script>
 </body>
 </html>
+
+// Strict Admin Check: Lalabas LAMANG ang link kung ang account ay justinpheymiranda@gmail.com
+const userEmail = sessionStorage.getItem("userEmail");
+
+if (userEmail && userEmail.toLowerCase() === "justinpheymiranda@gmail.com") {
+    const adminNavLink = document.getElementById("admin-nav-link");
+    if (adminNavLink) {
+        adminNavLink.style.display = "flex";
+    }
+}
