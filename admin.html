@@ -15,8 +15,20 @@
 </head>
 <body>
 
+    <script>
+    // Strict Gatekeeper para sa admin.html
+    const emailSession = sessionStorage.getItem("userEmail");
+    const emailLocal = localStorage.getItem("userEmail");
+    const currentEmail = emailSession || emailLocal;
+    const isLoggedIn = sessionStorage.getItem("loggedIn") || localStorage.getItem("loggedIn");
+
+    if (!isLoggedIn || !currentEmail || currentEmail.toLowerCase().trim() !== "justinpheymiranda@gmail.com") {
+        alert("Access Denied: Exclusivo lamang ang pahinang ito para kay justinpheymiranda@gmail.com");
+        window.location.href = "index.html";
+    }
+</script>
+
 <script>
-    // STRICT SECURITY GUARD: JUSTINPHEYMIRANDA@GMAIL.COM LAMANG ANG PWEDENG PUMASOK
     const loggedIn = sessionStorage.getItem("loggedIn");
     const userEmail = sessionStorage.getItem("userEmail");
 
