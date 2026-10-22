@@ -9,34 +9,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
+    <!-- Strict Security Gatekeeper -->
+    <script>
+        const emailSession = sessionStorage.getItem("userEmail");
+        const emailLocal = localStorage.getItem("userEmail");
+        const currentEmail = emailSession || emailLocal;
+        const isLoggedIn = sessionStorage.getItem("loggedIn") || localStorage.getItem("loggedIn");
+
+        if (!isLoggedIn || !currentEmail || currentEmail.toLowerCase().trim() !== "justinpheymiranda@gmail.com") {
+            alert("Access Denied: Eksklusibo lamang ang pahinang ito para kay justinpheymiranda@gmail.com");
+            window.location.href = "index.html";
+        }
+    </script>
+
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-
-    <script>
-    // Strict Gatekeeper para sa admin.html
-    const emailSession = sessionStorage.getItem("userEmail");
-    const emailLocal = localStorage.getItem("userEmail");
-    const currentEmail = emailSession || emailLocal;
-    const isLoggedIn = sessionStorage.getItem("loggedIn") || localStorage.getItem("loggedIn");
-
-    if (!isLoggedIn || !currentEmail || currentEmail.toLowerCase().trim() !== "justinpheymiranda@gmail.com") {
-        alert("Access Denied: Exclusivo lamang ang pahinang ito para kay justinpheymiranda@gmail.com");
-        window.location.href = "index.html";
-    }
-</script>
-
-<script>
-    const loggedIn = sessionStorage.getItem("loggedIn");
-    const userEmail = sessionStorage.getItem("userEmail");
-
-    if (!loggedIn || !userEmail || userEmail.toLowerCase() !== "justinpheymiranda@gmail.com") {
-        alert("Access Denied: Ang account na ito ay walang pahintulot sa System Administration.");
-        window.location.href = "index.html";
-    }
-</script>
 
 <div class="admin-shell" style="max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem;">
     <div class="admin-top" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem;">
