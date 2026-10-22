@@ -3,7 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin — JPRODUCTIONS</title>
+    <title>Admin — JPRODUCTIONS</title><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Administration — JPRODUCTIONS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<script>
+    // Security Guard: Hard Check bago mag-load ang page UI
+    const loggedIn = sessionStorage.getItem("loggedIn");
+    const userRole = sessionStorage.getItem("userRole");
+    const userEmail = sessionStorage.getItem("userEmail");
+
+    if (!loggedIn || (userRole !== "admin" && userEmail !== "justinpheymiranda@gmail.com")) {
+        alert("Access Denied: Administrator privileges required.");
+        window.location.href = "index.html";
+    }
+</script>
+
+<div class="admin-shell">
+    <div class="admin-top">
+        <h1>Auditions Management</h1>
+        <div class="admin-actions">
+            <button type="button" id="btn-refresh" class="btn btn-ghost">Refresh Records</button>
+            <a href="index.html" class="btn btn-ghost">← Return to Main Site</a>
+            <button type="button" id="btn-theme" class="btn btn-ghost">Toggle Theme</button>
+        </div>
+    </div>
+
+    <!-- Administrative Statistics -->
+    <div class="admin-stats">
+        <div class="stat-card">
+            <div class="num" id="count-all">0</div>
+            <div class="lbl">Total Submissions</div>
+        </div>
+        <div class="stat-card">
+            <div class="num" id="count-pending">0</div>
+            <div class="lbl">Pending Evaluation</div>
+        </div>
+        <div class="stat-card">
+            <div class="num" id="count-shortlisted">0</div>
+            <div class="lbl">Shortlisted</div>
+        </div>
+        <div class="stat-card">
+            <div class="num" id="count-accepted">0</div>
+            <div class="lbl">Accepted</div>
+        </div>
+    </div>
+
+    <!-- Filtering Controls -->
+    <div class="filter-row">
+        <button type="button" class="filter-btn active" data-filter="all">All Entries</button>
+        <button type="button" class="filter-btn" data-filter="pending">Pending</button>
+        <button type="button" class="filter-btn" data-filter="shortlisted">Shortlisted</button>
+        <button type="button" class="filter-btn" data-filter="accepted">Accepted</button>
+        <button type="button" class="filter-btn" data-filter="passed">Passed</button>
+    </div>
+
+    <!-- Record List Container -->
+    <div id="aud-list" class="aud-list">
+        <div class="loading-state">Loading audition records…</div>
+    </div>
+</div>
+
+<script src="firebase-config.js"></script>
+<script>
+(function () {
+    const root = document.documentElement;
+    root.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
+
+    document.getElementById("btn-theme").addEventListener("click", () => {
+        const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+    });
+
+    const db = firebase.firestore();
+    let allDocs = [];
+    let currentFilter = "all";
+
+    function formatDate(ts) {
+        if (!ts) return "—";
+        try {
+            const d = ts.toDate ? ts.toDate() : new Date(ts);
+            return d.toLocaleString();
+        } catch { return "—"; }
+    }
+
+    function statusClass(s) {
+        return "status-" + (s || "pending");
+    }
+
+    function escapeHtml(str) {
+        return String(str || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    }
+
+    function escapeAttr(str) {
+        return escapeHtml(str).replace(/'/g, "&#39;");
+    }
+
+    function render() {
+        const list = document.getElementById("aud-list");
+        const filtered = currentFilter === "all"
+            ? allDocs
+            : allDocs.filter(d => (d.data.status || "pending") === currentFilter);
+
+        // Update counts
+        document.getElementById("count-all").textContent = allDocs.length;
+        document.getElementById("count-pending").textContent = allDocs.filter(d => (d.data.status || "pending") === "pending").length;
+        document.getElementById("count-shortlisted").textContent = allDocs.filter(d => d.data.status === "shortlisted").length;
+        document.getElementById("count-accepted").textContent = allDocs.filter(d => d.data.status === "accepted").length;
+
+        if (!filtered.length) {
+            list.innerHTML = '<div class="empty-state">No audition entries match the selected filter.</div>';
+            return;
+        }
+
+        list.innerHTML = filtered.map(({ id, data }) => {
+            const st = data.status || "pending";
+            return `
+            <article class="aud-card" data-id="${id}">
+                <div class="aud-card-head">
+                    <div>
+                        <div class="aud-name">${escapeHtml(data.fullName || "Unspecified Applicant")}</div>
+                        <div class="aud-meta">${escapeHtml(data.city || "Location not specified")} &bull; Submitted: ${formatDate(data.submittedAt)}</div>
+                    </div>
+                    <span class="status-badge ${statusClass(st)}">${escapeHtml(st)}</span>
+                </div>
+                <dl class="aud-body">
+                    <div><dt>Email Address</dt><dd>${escapeHtml(data.email || "—")}</dd></div>
+                    <div><dt>Contact Number</dt><dd>${escapeHtml(data.phone || "—")}</dd></div>
+                    <div><dt>Vocal Style</dt><dd>${escapeHtml(data.style || "—")}</dd></div>
+                    <div><dt>Experience Level</dt><dd>${escapeHtml(data.experience || "—")}</dd></div>
+                    <div><dt>Audition Piece</dt><dd>${escapeHtml(data.song || "—")}</dd></div>
+                    <div><dt>Weekend Availability</dt><dd>${data.availableWeekends ? "Confirmed" : "Unavailable"}</dd></div>
+                    <div class="aud-why"><dt>Statement of Purpose</dt><dd>${escapeHtml(data.why || "—")}</dd></div>
+                    ${data.mediaLink ? `<div class="aud-link"><dt>Media Resource</dt><dd><a href="${escapeAttr(data.mediaLink)}" target="_blank" rel="noopener">Access Media Link</a></dd></div>` : ""}
+                </dl>
+                <div class="aud-actions">
+                    <button type="button" data-status="pending" ${st === "pending" ? "disabled" : ""}>Mark Pending</button>
+                    <button type="button" data-status="shortlisted" ${st === "shortlisted" ? "disabled" : ""}>Shortlist</button>
+                    <button type="button" data-status="accepted" ${st === "accepted" ? "disabled" : ""}>Accept</button>
+                    <button type="button" data-status="passed" ${st === "passed" ? "disabled" : ""}>Pass</button>
+                </div>
+            </article>`;
+        }).join("");
+
+        list.querySelectorAll(".aud-actions button").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                const card = btn.closest(".aud-card");
+                const id = card.dataset.id;
+                const status = btn.dataset.status;
+                btn.disabled = true;
+                try {
+                    await db.collection("auditions").doc(id).update({
+                        status,
+                        reviewedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    const doc = allDocs.find(d => d.id === id);
+                    if (doc) doc.data.status = status;
+                    render();
+                } catch (err) {
+                    console.error("Firestore Update Error:", err);
+                    alert("System failed to update record status.");
+                    btn.disabled = false;
+                }
+            });
+        });
+    }
+
+    async function loadAuditions() {
+        const list = document.getElementById("aud-list");
+        list.innerHTML = '<div class="loading-state">Retrieving audition database records…</div>';
+        try {
+            const snap = await db.collection("auditions").orderBy("submittedAt", "desc").get();
+            allDocs = snap.docs.map(d => ({ id: d.id, data: d.data() }));
+            render();
+        } catch (err) {
+            console.error("Primary Fetch Failed, executing fallback sorting...", err);
+            try {
+                const snap = await db.collection("auditions").get();
+                allDocs = snap.docs.map(d => ({ id: d.id, data: d.data() }));
+                allDocs.sort((a, b) => {
+                    const ta = a.data.submittedAt?.toMillis?.() || 0;
+                    const tb = b.data.submittedAt?.toMillis?.() || 0;
+                    return tb - ta;
+                });
+                render();
+            } catch (err2) {
+                list.innerHTML = '<div class="error-state">Unable to load audition entries. Verify database permission rules.</div>';
+            }
+        }
+    }
+
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentFilter = btn.dataset.filter;
+            render();
+        });
+    });
+
+    document.getElementById("btn-refresh").addEventListener("click", loadAuditions);
+
+    // Initial load
+    loadAuditions();
+})();
+</script>
+</body>
+</html>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
