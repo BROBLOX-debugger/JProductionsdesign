@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JPRODUCTIONS — Professional Vocalist & Event Services</title>
+    <title>JPRODUCTIONS — Executive Vocalist & Live Performance Services</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -26,7 +26,7 @@
 
 <div class="app-shell">
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR (MALINIS NA MGA TEXT LAMANG) -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-top">
             <a href="index.html" class="sidebar-brand">JPRODUCTIONS</a>
@@ -37,45 +37,36 @@
             <div class="user-avatar">J</div>
             <div class="user-info">
                 <span class="user-name" id="user-greeting">Justin Miranda</span>
-                <span class="user-role">Performer & Scholar</span>
+                <span class="user-role">Lead Performer</span>
             </div>
         </div>
 
         <nav class="sidebar-nav">
             <a href="#hero" class="nav-item active" data-section="hero">
-                <span class="nav-icon">🏠</span>
                 <span class="nav-label">Overview</span>
             </a>
             <a href="#about" class="nav-item" data-section="about">
-                <span class="nav-icon">👤</span>
                 <span class="nav-label">Profile</span>
             </a>
             <a href="#services" class="nav-item" data-section="services">
-                <span class="nav-icon">🎵</span>
-                <span class="nav-label">Services</span>
+                <span class="nav-label">Performance Services</span>
             </a>
             <a href="#achievements" class="nav-item" data-section="achievements">
-                <span class="nav-icon">🏆</span>
                 <span class="nav-label">Credentials</span>
             </a>
             <a href="#booking" class="nav-item" data-section="booking">
-                <span class="nav-icon">📅</span>
-                <span class="nav-label">Event Booking</span>
+                <span class="nav-label">Event Booking System</span>
             </a>
             <a href="#faq" class="nav-item" data-section="faq">
-                <span class="nav-icon">❓</span>
-                <span class="nav-label">FAQ</span>
+                <span class="nav-label">Client Guidance</span>
             </a>
             <a href="#audition" class="nav-item" data-section="audition">
-                <span class="nav-icon">🎤</span>
-                <span class="nav-label">Talent Audition</span>
+                <span class="nav-label">Talent Evaluation</span>
             </a>
         </nav>
 
         <div class="sidebar-footer">
-            <!-- System Administration Link (Nakatago para sa iba, lalabas lang kay Justin) -->
             <a href="admin.html" class="nav-item" id="admin-nav-link" style="display: none; border-color: color-mix(in srgb, var(--c1) 40%, transparent);">
-                <span class="nav-icon">⚙️</span>
                 <span class="nav-label">System Administration</span>
             </a>
             <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light">
@@ -86,7 +77,7 @@
                 <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                 </svg>
-                <span class="theme-label">Theme Mode</span>
+                <span class="theme-label">Interface Theme</span>
             </button>
             <button class="logout-btn" onclick="logout()">Sign Out</button>
         </div>
@@ -112,7 +103,7 @@
 
         <main class="main-content">
 
-            <!-- HERO SECTION -->
+            <!-- OVERVIEW / HERO -->
             <section id="hero" class="panel hero-panel view-section active-view">
                 <div class="hero-spotlight"></div>
                 <div class="hero-grain"></div>
@@ -124,125 +115,117 @@
                         </div>
                         <div class="live-badge">
                             <span class="live-dot"></span>
-                            Available for Bookings
+                            Booking Availability Active
                         </div>
-                        <div class="hero-badge">Award-Winning Vocalist</div>
+                        <div class="hero-badge">Grand Champion Soloist</div>
                         <div class="sound-waves" aria-hidden="true">
                             <span></span><span></span><span></span><span></span><span></span>
                         </div>
                     </div>
                     <div class="hero-content">
-                        <p class="eyebrow">Professional Live Performer • BSCS Scholar</p>
+                        <p class="eyebrow">Professional Live Vocalist • Computer Science Scholar</p>
                         <h1 class="hero-title">Justin Phey Miranda</h1>
                         <p class="hero-lead">
-                            Delivering exceptional live musical performances for weddings, corporate functions, 
-                            and private celebrations. Blending rigorous academic excellence in Computer Science 
-                            with professional vocal artistry.
+                            Providing high-caliber live vocal entertainment for corporate galas, private formal receptions, and institutional programs. Structured management paired with professional stage execution.
                         </p>
                         <div class="hero-actions">
-                            <a href="#booking" class="btn btn-primary" data-section="booking">Request a Booking</a>
-                            <a href="#achievements" class="btn btn-ghost" data-section="achievements">View Credentials</a>
+                            <a href="#booking" class="btn btn-primary" data-section="booking">Reserve Performance Date</a>
+                            <a href="#achievements" class="btn btn-ghost" data-section="achievements">Review Competition Credentials</a>
                         </div>
                         <div class="hero-stats">
                             <div class="stat">
-                                <span class="stat-num">Champion</span>
-                                <span class="stat-label">Vocalist</span>
+                                <span class="stat-num">Vocal Champion</span>
+                                <span class="stat-label">Titleholder</span>
                             </div>
                             <div class="stat-divider"></div>
                             <div class="stat">
                                 <span class="stat-num">Verified</span>
-                                <span class="stat-label">Performer</span>
+                                <span class="stat-label">Live Vocalist</span>
                             </div>
                             <div class="stat-divider"></div>
                             <div class="stat">
-                                <span class="stat-num">BSCS</span>
-                                <span class="stat-label">Undergrad</span>
+                                <span class="stat-num">BS Computer Science</span>
+                                <span class="stat-label">Scholar</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ABOUT SECTION -->
+            <!-- PROFILE / ABOUT -->
             <section id="about" class="panel view-section">
                 <div class="section-header">
-                    <p class="eyebrow">Professional Background</p>
-                    <h2>About the Artist</h2>
+                    <p class="eyebrow">Background & Standards</p>
+                    <h2>Artist Profile</h2>
                 </div>
                 <div class="about-grid">
                     <div class="about-text">
                         <p>
-                            I am <strong>Justin Phey Miranda</strong>, currently advancing my studies in a 
-                            <strong>Bachelor of Science in Computer Science</strong> while actively maintaining 
-                            a professional career in live vocal performance.
+                            I am <strong>Justin Phey Miranda</strong>, currently taking up a 
+                            <strong>Bachelor of Science in Computer Science</strong> while working as a professional 
+                            vocal performer across diverse event classifications.
                         </p>
                         <p>
-                            Recognized as a competitive vocal champion, my portfolio reflects strict discipline, 
-                            stage reliability, and technical vocal competence across multiple music genres. 
-                            I approach every engagement with professional punctuality and high performance standards.
+                            With a strong record in competitive vocal music, every performance is executed with strict schedule management, precise vocal technicality, and client-centric professionalism.
                         </p>
                         <div class="about-tags">
-                            <span class="tag">Professional Vocalist</span>
+                            <span class="tag">Live Performance</span>
                             <span class="tag">Grand Champion</span>
-                            <span class="tag">Live Entertainment</span>
-                            <span class="tag">Systems Integration</span>
+                            <span class="tag">Corporate Events</span>
+                            <span class="tag">System Integration</span>
                         </div>
                     </div>
                     <div class="about-side">
                         <div class="info-card">
-                            <h3>Direct Contact</h3>
+                            <h3>Direct Communication</h3>
                             <a href="mailto:justinpheymiranda@gmail.com">justinpheymiranda@gmail.com</a>
                             <a href="tel:+639943624749">+63 994 362 4749</a>
-                            <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener">Instagram Portfolio</a>
+                            <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener">Official Instagram Portfolio</a>
                         </div>
                         <div class="info-card">
-                            <h3>Engagement Categories</h3>
+                            <h3>Accepted Engagements</h3>
                             <ul>
-                                <li>Wedding Ceremonies & Receptions</li>
-                                <li>Corporate Conferences & Galas</li>
+                                <li>Wedding Ceremonies & Formal Receptions</li>
+                                <li>Corporate Galas & Executive Summits</li>
                                 <li>Private Celebrations & Dinners</li>
-                                <li>Institutional Programs</li>
+                                <li>Institutional Programs & Cultural Events</li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- SERVICES SECTION -->
+            <!-- PERFORMANCE SERVICES -->
             <section id="services" class="panel view-section">
                 <div class="section-header">
-                    <p class="eyebrow">Service Offerings</p>
-                    <h2>Professional Capabilities</h2>
+                    <p class="eyebrow">Performance Solutions</p>
+                    <h2>Professional Services</h2>
                 </div>
                 <div class="services-grid">
                     <div class="service-card">
-                        <div class="service-icon">🎙️</div>
-                        <h3>Live Vocal Execution</h3>
-                        <p>High-caliber live singing tailored for formal ceremonies, corporate functions, and upscale private celebrations, ensuring absolute audience engagement.</p>
+                        <h3>Live Ceremony & Reception Vocalist</h3>
+                        <p>Tailored musical performances designed specifically for weddings, corporate dinners, and formal ceremonies with complete repertoire coordination.</p>
                     </div>
                     <div class="service-card">
-                        <div class="service-icon">✨</div>
-                        <h3>Featured Soloist</h3>
-                        <p>Feature performance packages ranging from intimate acoustic arrangements to dynamic, full-scale stage productions.</p>
+                        <h3>Featured Concert Soloist</h3>
+                        <p>Full soloist stage sets ranging from acoustic intimate arrangements to high-energy band backing performances.</p>
                     </div>
                     <div class="service-card">
-                        <div class="service-icon">🎧</div>
-                        <h3>Audio Recording</h3>
-                        <p>Studio-quality vocal tracking and digital session delivery suitable for specialized commercial or personal media projects.</p>
+                        <h3>Commercial Audio Tracking</h3>
+                        <p>Studio-grade vocal recording for media soundtracks, arrangements, and custom audio productions delivered digitally.</p>
                     </div>
                     <div class="service-card">
-                        <div class="service-icon">🌍</div>
-                        <h3>Multi-Lingual Repertoire</h3>
-                        <p>Diverse song selection covering multiple languages and regional dialects, customized per client specifications.</p>
+                        <h3>Curated Repertoire Planning</h3>
+                        <p>Custom song list selection tailored directly to fit client themes, regional language requirements, or formal venue protocols.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- ACHIEVEMENTS SECTION -->
+            <!-- CREDENTIALS -->
             <section id="achievements" class="panel view-section">
                 <div class="section-header">
-                    <p class="eyebrow">Awards & Accolades</p>
-                    <h2>Competition Credentials</h2>
+                    <p class="eyebrow">Excellence & Honors</p>
+                    <h2>Vocal Credentials</h2>
                 </div>
                 <div class="achievements-grid">
                     <div class="ach-item large">
@@ -262,76 +245,76 @@
                     </div>
                 </div>
                 <div class="achievements-cta">
-                    <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener" class="btn btn-primary">View Full Media Gallery</a>
+                    <a href="https://www.instagram.com/jstn_creep/" target="_blank" rel="noopener" class="btn btn-primary">Open Performance Archive</a>
                 </div>
             </section>
 
-            <!-- BOOKING SECTION -->
+            <!-- EVENT BOOKING SYSTEM -->
             <section id="booking" class="panel view-section">
                 <div class="section-header">
                     <p class="eyebrow">Reservation Portal</p>
                     <h2>Event Booking System</h2>
-                    <p class="section-desc">Submit your event parameters below. Entries are securely logged directly into the system database for prompt scheduling evaluation.</p>
+                    <p class="section-desc">Submit event parameters below. Applications are processed directly into the database for scheduling verification.</p>
                 </div>
                 <form id="booking-form" class="booking-form">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="booking-name">Full Name</label>
-                            <input type="text" id="booking-name" name="name" placeholder="Enter full name" required autocomplete="name">
+                            <label for="booking-name">Client Full Name</label>
+                            <input type="text" id="booking-name" name="name" placeholder="Enter complete legal name" required autocomplete="name">
                         </div>
                         <div class="form-group">
-                            <label for="booking-date">Scheduled Event Date</label>
+                            <label for="booking-date">Target Event Date</label>
                             <input type="date" id="booking-date" name="date" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="booking-song">Requested Repertoire / Song Selection</label>
-                        <input type="text" id="booking-song" name="song" placeholder="e.g., Classical ballads, OPM standards" required>
+                        <label for="booking-song">Requested Repertoire / Key Songs</label>
+                        <input type="text" id="booking-song" name="song" placeholder="e.g., Classical ballads, OPM standards, Contemporary Pop" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-full">Submit Booking Application</button>
+                    <button type="submit" class="btn btn-primary btn-full">Submit Reservation Request</button>
                     <p id="booking-status" role="status"></p>
                 </form>
             </section>
 
-            <!-- FAQ SECTION -->
+            <!-- CLIENT GUIDANCE / FAQ -->
             <section id="faq" class="panel view-section">
                 <div class="section-header">
-                    <p class="eyebrow">Inquiry Guidance</p>
+                    <p class="eyebrow">Information & Terms</p>
                     <h2>Frequently Asked Questions</h2>
                 </div>
                 <div class="faq-list">
                     <details>
-                        <summary>What specific event classifications are accommodated?</summary>
-                        <p>Services cover weddings, formal corporate galas, private milestone celebrations, and institutional assemblies.</p>
+                        <summary>What event types can be accommodated?</summary>
+                        <p>Services cover weddings, corporate conventions, private milestone celebrations, formal assemblies, and studio recording projects.</p>
                     </details>
                     <details>
-                        <summary>What is the recommended booking lead time?</summary>
-                        <p>It is advised to submit booking requests at least four to six weeks prior to the target event date.</p>
+                        <summary>What is the lead time required for booking reservations?</summary>
+                        <p>It is recommended to submit reservation forms at least four to six weeks in advance to ensure schedule availability and song rehearsal time.</p>
                     </details>
                     <details>
-                        <summary>Are studio recording services available?</summary>
-                        <p>Yes, vocal session recordings are accommodated subject to schedule verification.</p>
+                        <summary>Can custom song requests be accommodated?</summary>
+                        <p>Yes. Custom repertoire requests can be arranged provided they are submitted during the initial booking confirmation phase.</p>
                     </details>
                 </div>
             </section>
 
-            <!-- AUDITION SECTION -->
+            <!-- TALENT EVALUATION / AUDITION -->
             <section id="audition" class="panel view-section">
                 <div class="section-header">
-                    <p class="eyebrow">Talent Evaluation</p>
-                    <h2>JPRODUCTIONS Audition Portal</h2>
-                    <p class="section-desc">Open application call for disciplined, stage-ready vocalists.</p>
+                    <p class="eyebrow">Talent Assessment</p>
+                    <h2>Audition Application Portal</h2>
+                    <p class="section-desc">Formal application portal for stage-ready vocal talent seeking evaluation under JPRODUCTIONS.</p>
                 </div>
 
                 <div class="audition-layout">
                     <div class="audition-info">
                         <div class="info-card">
-                            <h3>Evaluation Criteria</h3>
+                            <h3>Assessment Criteria</h3>
                             <ul>
-                                <li>Vocal technical stability</li>
-                                <li>Stage discipline & professionalism</li>
+                                <li>Vocal stability and control</li>
+                                <li>Stage presence and professional decorum</li>
                                 <li>Punctuality and schedule reliability</li>
-                                <li>Proficiency in OPM, Pop, or R&amp;B</li>
+                                <li>Genre adaptability (Pop, Ballad, R&amp;B, OPM)</li>
                             </ul>
                         </div>
                     </div>
@@ -340,7 +323,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="aud-name">Full Name</label>
-                                <input type="text" id="aud-name" placeholder="Enter legal full name" required autocomplete="name">
+                                <input type="text" id="aud-name" placeholder="Enter complete name" required autocomplete="name">
                             </div>
                             <div class="form-group">
                                 <label for="aud-birthday">Date of Birth</label>
@@ -349,7 +332,7 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="aud-city">Current Residence / City</label>
+                                <label for="aud-city">City / Location</label>
                                 <input type="text" id="aud-city" placeholder="e.g., Quezon City" required>
                             </div>
                             <div class="form-group">
@@ -363,9 +346,9 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="aud-style">Primary Vocal Genre</label>
+                                <label for="aud-style">Primary Vocal Specialty</label>
                                 <select id="aud-style" required>
-                                    <option value="" disabled selected>Select genre</option>
+                                    <option value="" disabled selected>Select primary genre</option>
                                     <option>Pop</option>
                                     <option>Ballad</option>
                                     <option>R&amp;B</option>
@@ -384,20 +367,20 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="aud-song">Signature Audition Piece</label>
-                            <input type="text" id="aud-song" placeholder="Song title" required>
+                            <label for="aud-song">Key Audition Piece</label>
+                            <input type="text" id="aud-song" placeholder="Song title and artist" required>
                         </div>
                         <div class="form-group">
-                            <label for="aud-why">Statement of Purpose</label>
-                            <textarea id="aud-why" rows="3" placeholder="Briefly state your artistic motivation..." required></textarea>
+                            <label for="aud-why">Statement of Artistic Purpose</label>
+                            <textarea id="aud-why" rows="3" placeholder="State your performance objectives..." required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-full" id="aud-btn">Submit Audition Credentials</button>
+                        <button type="submit" class="btn btn-primary btn-full" id="aud-btn">Submit Candidate Portfolio</button>
                         <p id="audition-status" role="status"></p>
                     </form>
                 </div>
             </section>
 
-            <!-- FOOTER WITH SVG ICONS -->
+            <!-- FOOTER WITH CLEAN SVG SOCIAL ICONS -->
             <footer class="footer panel">
                 <div class="footer-brand">JPRODUCTIONS</div>
                 <div class="footer-links">
@@ -438,9 +421,8 @@
 
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-<!-- JAVASCRIPT LOGIC & ADMIN VISIBILITY CHECK -->
+<!-- JAVASCRIPT LOGIC -->
 <script>
-    // Strict Admin Access Check para sa Sidebar
     function checkAdminAccess() {
         const emailSession = sessionStorage.getItem("userEmail");
         const emailLocal = localStorage.getItem("userEmail");
@@ -458,7 +440,6 @@
 
     checkAdminAccess();
 
-    // Theme toggling
     const root = document.documentElement;
     const currentTheme = localStorage.getItem("theme") || "dark";
     root.setAttribute("data-theme", currentTheme);
@@ -471,7 +452,6 @@
     document.getElementById("theme-toggle")?.addEventListener("click", toggleTheme);
     document.getElementById("theme-toggle-mobile")?.addEventListener("click", toggleTheme);
 
-    // Sidebar mechanics
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("sidebar-overlay");
     const menuBtn = document.getElementById("menu-btn");
@@ -491,7 +471,6 @@
     closeBtn?.addEventListener("click", closeSidebar);
     overlay?.addEventListener("click", closeSidebar);
 
-    // Section view switching
     const views = document.querySelectorAll(".view-section");
     const navItems = document.querySelectorAll(".sidebar-nav .nav-item[data-section]");
 
